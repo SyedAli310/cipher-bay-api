@@ -5,26 +5,24 @@ const validSchemes = Object.keys(schemeCollection);
 
 const encoder = async (req, res) => {
   const { str, scheme } = req.query;
-  if (!scheme || !str) {
-    res.status(400).json({
-      error: true,
-      msg: "please provide a string and a coding scheme",
-    });
-  } else {
+  try {
+    if (!scheme || !str) {
+      return res.status(400).json({
+        error: true,
+        msg: "please provide a string and a coding scheme",
+      });
+    }
     if (!validSchemes.includes(scheme)) {
-      res
+      return res
         .status(400)
         .json({ error: true, msg: "please provide a valid scheme" });
-    } else {
-      const codingScheme = schemeCollection[scheme].encode;
-      const identifier = scheme.split("_").reverse()[0];
-      try {
-        const encoded = (await encode(str, codingScheme)) + "@" + identifier;
-        res.status(200).json({ error: false, text: str, encoded, scheme });
-      } catch (err) {
-        res.status(500).json({ error: true, msg: err.message });
-      }
     }
+    const codingScheme = schemeCollection[scheme].encode;
+    const identifier = scheme.split("_").reverse()[0];
+    const encoded = (await encode(str, codingScheme)) + "@" + identifier;
+    res.status(200).json({ error: false, text: str, encoded, scheme });
+  } catch (err) {
+    res.status(500).json({ error: true, msg: err.message });
   }
 };
 
@@ -35,8 +33,11 @@ const decoder = async (req, res) => {
       res.status(400).json({ error: true, msg: "please provide a code" });
     } else {
       const schemeName = `scheme_${code.split("@").reverse()[0]}`;
-      if(!validSchemes.includes(schemeName)){
-        return res.status(400).json({ error: true, msg: "please provide a valid cipher scheme to decode" });
+      if (!validSchemes.includes(schemeName)) {
+        return res.status(400).json({
+          error: true,
+          msg: "please provide a valid cipher scheme to decode",
+        });
       }
       const codingScheme = schemeCollection[schemeName].decode;
       const actualCode = code.split("@").reverse()[1];
