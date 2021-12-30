@@ -47,4 +47,9 @@ const decoder = async (req, res) => {
   }
 };
 
-module.exports = { encoder, decoder };
+const schemes = async (req, res) => {
+    const info = 'Schemes are used to (encode <-> decode) (text <-> ciphers). The encoded ciphers are separated by "-" and the identifier is used to decode the code. The identifier can be usually seen after the @ symbol as the end of the cipher.';
+    res.status(200).json({ error: false, info ,schemes: validSchemes });
+};
+
+module.exports = { encoder, decoder, schemes };
