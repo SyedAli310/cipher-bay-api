@@ -1,13 +1,32 @@
+//extra security packages(middlewares)
+const helmet = require("helmet");
+const cors = require("cors");
+const xss = require("xss-clean");
+const rateLimiter = require("express-rate-limit");
+
+// initialize express app
 const express = require("express");
 const app = express();
-
-//routers
-const cipherRouter = require("./routes/cipher");
 
 //middlewares
 const auth = require("./middlewares/auth");
 
+//routers
+const cipherRouter = require("./routes/cipher");
+
+app.set("trust proxy", 1);
+app.use(
+  rateLimiter({
+    windowMs: 15 * 60 * 1000,
+    max: 250,
+  })
+);
 app.use(express.json());
+// extra packages
+app.use(helmet());
+app.use(cors());
+app.use(xss());
+
 
 //routes
 app.use("/api/v1/cipher", auth , cipherRouter);
