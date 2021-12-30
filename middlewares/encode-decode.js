@@ -1,5 +1,14 @@
-const {code__NTC__1} = require("../codeSchemes/numToChar");
-const {code__CTN__1} = require("../codeSchemes/charToNum");
+const {
+  code__NTC__1,
+  code__NTC__2,
+  code__NTC__3,
+} = require("../codeSchemes/numToChar");
+
+const {
+  code__CTN__1,
+  code__CTN__2,
+  code__CTN__3,
+} = require("../codeSchemes/charToNum");
 
 const encode = async (str) => {
   //str -> 'demo string'
@@ -19,7 +28,7 @@ const encode = async (str) => {
 
   //console.log(result);
   return result.join("");
-}
+};
 
 const decode = async (numCode) => {
   //numCode -> '20-30-182-240  210-462-182-12-240-20-30'
@@ -46,9 +55,9 @@ const decode = async (numCode) => {
 
   //console.log(result);
   return result.join("");
-}
+};
 
-  module.exports = {
-    encode,   
-    decode
-  };
+module.exports = {
+  encode,
+  decode,
+};
