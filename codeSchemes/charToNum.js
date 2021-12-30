@@ -1,4 +1,4 @@
-{
+const code__CTN__1 = {
     "a": 2,
     "b": 6,
     "c": 12,
@@ -27,3 +27,5 @@
     "z": 702,
     " ": " "
 }
+
+module.exports = {code__CTN__1};

@@ -1,5 +1,5 @@
-const encodeScheme = require("../codeSchemes/numToChar");
-const decodeScheme = require("../codeSchemes/charToNum.json");
+const {code__NTC__1} = require("../codeSchemes/numToChar");
+const {code__CTN__1} = require("../codeSchemes/charToNum");
 
 const encode = async (str) => {
   //str -> 'demo string'
@@ -11,7 +11,7 @@ const encode = async (str) => {
       result.push(" ");
     }
     for (var j = 0; j < splittedStr[i].length; j++) {
-      result.push(decodeScheme[splittedStr[i][j].toLowerCase()]);
+      result.push(code__CTN__1[splittedStr[i][j].toLowerCase()]);
       result.push("-");
     }
     result.pop();
@@ -40,7 +40,7 @@ const decode = async (numCode) => {
       result.push(" ");
     }
     for (var j = 0; j < tempRes[i].length; j++) {
-      result.push(encodeScheme[tempRes[i][j]]);
+      result.push(code__NTC__1[tempRes[i][j]]);
     }
   }
 
