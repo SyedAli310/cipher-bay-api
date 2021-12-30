@@ -6,11 +6,17 @@ const validSchemes = Object.keys(schemeCollection);
 const encoder = async (req, res) => {
   const { str, scheme } = req.query;
   try {
-    if (!scheme || !str) {
+    if (!str) {
       return res.status(400).json({
         error: true,
-        msg: "please provide a string and a coding scheme",
+        msg: "please provide a string to encode",
       });
+    }
+    if(!scheme){
+        return res.status(400).json({
+            error: true,
+            msg: "please provide a scheme to encode",
+        });
     }
     if (!validSchemes.includes(scheme)) {
       return res
