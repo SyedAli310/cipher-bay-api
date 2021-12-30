@@ -1,16 +1,5 @@
-const {
-  code__NTC__1,
-  code__NTC__2,
-  code__NTC__3,
-} = require("../codeSchemes/numToChar");
 
-const {
-  code__CTN__1,
-  code__CTN__2,
-  code__CTN__3,
-} = require("../codeSchemes/charToNum");
-
-const encode = async (str) => {
+const encode = async (str, codeScheme) => {
   //str -> 'demo string'
   var result = [];
   var splittedStr = str.split(" ");
@@ -20,7 +9,7 @@ const encode = async (str) => {
       result.push(" ");
     }
     for (var j = 0; j < splittedStr[i].length; j++) {
-      result.push(code__CTN__1[splittedStr[i][j].toLowerCase()]);
+      result.push(codeScheme[splittedStr[i][j].toLowerCase()]);
       result.push("-");
     }
     result.pop();
@@ -30,7 +19,7 @@ const encode = async (str) => {
   return result.join("");
 };
 
-const decode = async (numCode) => {
+const decode = async (numCode, codeScheme) => {
   //numCode -> '20-30-182-240  210-462-182-12-240-20-30'
   var tempRes = [];
   var result = [];
@@ -49,7 +38,7 @@ const decode = async (numCode) => {
       result.push(" ");
     }
     for (var j = 0; j < tempRes[i].length; j++) {
-      result.push(code__NTC__1[tempRes[i][j]]);
+      result.push(codeScheme[tempRes[i][j]]);
     }
   }
 
