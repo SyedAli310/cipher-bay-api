@@ -30,26 +30,30 @@ const encoder = async (req, res) => {
 
 const decoder = async (req, res) => {
   const { code } = req.query;
-  if (!code) {
-    res.status(400).json({ error: true, msg: "please provide a code" });
-  } else {
-    const schemeName = `scheme_${code.split("@").reverse()[0]}`;
-    const codingScheme = schemeCollection[schemeName].decode;
-    const actualCode = code.split("@").reverse()[1];
-    try {
+  try {
+    if (!code) {
+      res.status(400).json({ error: true, msg: "please provide a code" });
+    } else {
+      const schemeName = `scheme_${code.split("@").reverse()[0]}`;
+      if(!validSchemes.includes(schemeName)){
+        return res.status(400).json({ error: true, msg: "please provide a valid cipher scheme to decode" });
+      }
+      const codingScheme = schemeCollection[schemeName].decode;
+      const actualCode = code.split("@").reverse()[1];
       const decoded = await decode(actualCode, codingScheme);
       res
         .status(200)
         .json({ error: false, code, decoded, schemeUsed: schemeName });
-    } catch (err) {
-      res.status(500).json({ error: true, msg: err.message });
     }
+  } catch (err) {
+    res.status(500).json({ error: true, msg: err.message });
   }
 };
 
 const schemes = async (req, res) => {
-    const info = 'Schemes are used to (encode <-> decode) (text <-> ciphers). The encoded ciphers are separated by "-" and the identifier is used to decode the code. The identifier can be usually seen after the @ symbol as the end of the cipher.';
-    res.status(200).json({ error: false, info ,schemes: validSchemes });
+  const info =
+    'Schemes are used to (encode <-> decode) (text <-> ciphers). The encoded ciphers are separated by "-" and the identifier is used to decode the code. The identifier can be usually seen after the @ symbol as the end of the cipher.';
+  res.status(200).json({ error: false, info, schemes: validSchemes });
 };
 
 module.exports = { encoder, decoder, schemes };
