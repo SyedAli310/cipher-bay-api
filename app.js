@@ -16,7 +16,6 @@ app.get("/decode", async (req, res) => {
     const schemeName = `scheme_${code.split("@").reverse()[0]}`;
     const codingScheme = schemeCollection[schemeName].decode;
     const actualCode = code.split("@").reverse()[1];
-    console.log(codingScheme);
     try {
       const decoded = await decode(actualCode, codingScheme);
       res.status(200).json({ error:false , code, decoded, schemeUsed: schemeName });
