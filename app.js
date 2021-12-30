@@ -20,7 +20,7 @@ app.get("/decode", async (req, res) => {
       const decoded = await decode(actualCode, codingScheme);
       res.status(200).json({ error:false , code, decoded, schemeUsed: schemeName });
     } catch (err) {
-      res.status(400).json({error:true, msg:err.message});
+      res.status(500).json({error:true, msg:err.message});
     }
   }
 });
@@ -40,7 +40,7 @@ app.get("/encode", async (req, res) => {
         const encoded = (await encode(str, codingScheme)) + "@" + identifier;
         res.status(200).json({error:false, text:str, encoded, scheme });
       } catch (err) {
-        res.status(400).json({error:true, msg:err.message});
+        res.status(500).json({error:true, msg:err.message});
       }
     }
   }
