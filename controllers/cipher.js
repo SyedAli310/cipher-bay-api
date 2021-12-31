@@ -27,7 +27,7 @@ const encoder = async (req, res) => {
     const codingScheme = schemeCollection.filter( i => i.name === scheme)[0].encode;
     const identifier = scheme.split("_").reverse()[0];
     const encoded = (await encode(str, codingScheme)) + "@" + identifier;
-    res.status(200).json({ error: false, text: str, encoded, scheme });
+    res.status(200).json({ error: false, text: str, encoded, schemeUsed:scheme });
   } catch (err) {
     res.status(500).json({ error: true, msg: err.message });
   }
