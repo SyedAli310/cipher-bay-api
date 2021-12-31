@@ -51,7 +51,6 @@ const decoder = async (req, res) => {
       });
     }
     const codingScheme = schemeCollection.filter( i => i.name === schemeName)[0].decode;
-    console.log(codingScheme);
     const actualCode = code.split("@").reverse()[1];
     const decoded = await decode(actualCode, codingScheme);
     res
