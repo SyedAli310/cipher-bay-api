@@ -24,10 +24,10 @@ const encoder = async (req, res) => {
         .status(400)
         .json({ error: true, msg: "please provide a valid scheme" });
     }
-    const codingScheme = schemeCollection.filter( i => i.name === scheme)[0].encode;
+    const codingScheme = schemeCollection.filter( i => i.name === scheme)[0];
     const identifier = scheme.split("_").reverse()[0];
-    const encoded = (await encode(str, codingScheme)) + "@" + identifier;
-    res.status(200).json({ error: false, text: str, encoded, schemeUsed:scheme });
+    const encoded = (await encode(str, codingScheme.encode)) + "@" + identifier;
+    res.status(200).json({ error: false, text: str, encoded, schemeUsed:codingScheme.name });
   } catch (err) {
     res.status(500).json({ error: true, msg: err.message });
   }
@@ -50,12 +50,12 @@ const decoder = async (req, res) => {
         msg: "please provide a valid cipher scheme to decode",
       });
     }
-    const codingScheme = schemeCollection.filter( i => i.name === schemeName)[0].decode;
+    const codingScheme = schemeCollection.filter( i => i.name === schemeName)[0];
     const actualCode = code.split("@").reverse()[1];
-    const decoded = await decode(actualCode, codingScheme);
+    const decoded = await decode(actualCode, codingScheme.decode);
     res
       .status(200)
-      .json({ error: false, code, decoded, schemeUsed: schemeName });
+      .json({ error: false, code, decoded, schemeUsed: codingScheme.name });
   } catch (err) {
     res.status(500).json({ error: true, msg: err.message });
   }
