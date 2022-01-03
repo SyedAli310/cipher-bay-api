@@ -4,8 +4,6 @@ const fetchSchemes = require("../codeSchemes/schemeSelection");
 
 const encoder = async (req, res) => {
   const { str, scheme } = req.query;
-  const schemeCollection = await fetchSchemes();
-  const validSchemes = schemeCollection.map((scheme) => scheme.name);
   try {
     if (!str) {
       return res.status(400).json({
@@ -17,6 +15,14 @@ const encoder = async (req, res) => {
       return res.status(400).json({
         error: true,
         msg: "please provide a scheme to encode",
+      });
+    }  
+    const schemeCollection = await fetchSchemes();
+    const validSchemes = schemeCollection.map((scheme) => scheme.name);
+    if(!schemeCollection || !validSchemes){
+      return res.status(400).json({
+        error: true,
+        msg: "could not fetch schemes from the server",
       });
     }
     if (!validSchemes.includes(scheme)) {
@@ -35,8 +41,6 @@ const encoder = async (req, res) => {
 
 const decoder = async (req, res) => {
   const { code } = req.query;
-  const schemeCollection = await fetchSchemes();
-  const validSchemes = schemeCollection.map((scheme) => scheme.name);
   try {
     if (!code) {
       return res
@@ -44,6 +48,14 @@ const decoder = async (req, res) => {
         .json({ error: true, msg: "please provide a code" });
     }
     const schemeName = `scheme_${code.split("@").reverse()[0]}`;
+    const schemeCollection = await fetchSchemes();
+    const validSchemes = schemeCollection.map((scheme) => scheme.name);
+    if(!schemeCollection || !validSchemes){
+      return res.status(400).json({
+        error: true,
+        msg: "could not fetch schemes from the server",
+      });
+    }
     if (!validSchemes.includes(schemeName)) {
       return res.status(400).json({
         error: true,
@@ -53,6 +65,12 @@ const decoder = async (req, res) => {
     const codingScheme = schemeCollection.filter( i => i.name === schemeName)[0];
     const actualCode = code.split("@").reverse()[1];
     const decoded = await decode(actualCode, codingScheme.decode);
+    if(!decoded.trim()){
+      return res.status(400).json({
+        error: true,
+        msg: "could not decode the code",
+      });
+    }
     res
       .status(200)
       .json({ error: false, code, decoded, schemeUsed: codingScheme.name });
