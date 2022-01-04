@@ -27,6 +27,10 @@ app.use(helmet());
 app.use(cors());
 app.use(xss());
 
+//base route
+app.get("/", (req, res) => {
+  res.redirect("https://cipher-bay.netlify.app");
+});
 
 //routes
 app.use("/api/v1/cipher", auth , cipherRouter);
