@@ -6,6 +6,10 @@ const SchemeSchema = new mongoose.Schema(
       type: String,
       required: [true, "Scheme name is required"],
     },
+    alias: {
+      type: String,
+      required: [true, "Scheme alias is required"],
+    },
     encode: {
       type: Object,
       required: [true, "Scheme encode is required"],
