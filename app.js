@@ -33,7 +33,7 @@ app.get("/", (req, res) => {
 });
 
 //routes
-app.use("/api/v1/cipher", auth , cipherRouter);
+app.use("/api/v1/cipher" , cipherRouter);
 
 
 const PORT = process.env.PORT || 5000;
