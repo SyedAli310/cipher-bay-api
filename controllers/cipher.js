@@ -3,7 +3,12 @@ const { encode, decode } = require("../middlewares/encode-decode");
 const fetchSchemes = require("../codeSchemes/schemeSelection");
 
 const encoder = async (req, res) => {
-  const { str, scheme } = req.body;
+  let { str, scheme } = req.body;
+  // regex to strip out special characters
+  console.log(str);
+  const regex = /[^a-zA-Z ]/g;
+  str = str.replace(regex, "");
+  console.log(str);
   try {
     if (!str) {
       return res.status(400).json({
