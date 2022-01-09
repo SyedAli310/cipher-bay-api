@@ -21,7 +21,8 @@ app.use(
     max: 250,
   })
 );
-app.use(express.json());
+app.use(express.json({limit: '10mb'}));
+
 // extra packages
 app.use(helmet());
 app.use(cors());
@@ -33,7 +34,7 @@ app.get("/", (req, res) => {
 });
 
 //routes
-app.use("/api/v1/cipher" , cipherRouter);
+app.use("/api/v1/cipher", cipherRouter);
 
 
 const PORT = process.env.PORT || 5000;
