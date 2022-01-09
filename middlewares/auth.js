@@ -1,7 +1,8 @@
 require('dotenv').config();
 
 const auth = (req, res, next) => {
-    const {apiKey} = req.query;
+    // get apiKey from header
+    const apiKey = req.header('apiKey');
     if(!apiKey){
         return res.status(401).json({error: true, msg: "please provide an api key"});
     }
