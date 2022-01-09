@@ -3,7 +3,7 @@ const { encode, decode } = require("../middlewares/encode-decode");
 const fetchSchemes = require("../codeSchemes/schemeSelection");
 
 const encoder = async (req, res) => {
-  const { str, scheme } = req.query;
+  const { str, scheme } = req.body;
   try {
     if (!str) {
       return res.status(400).json({
@@ -40,7 +40,7 @@ const encoder = async (req, res) => {
 };
 
 const decoder = async (req, res) => {
-  const { code } = req.query;
+  const { code } = req.body;
   try {
     if (!code) {
       return res
