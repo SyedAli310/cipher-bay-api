@@ -1,0 +1,14 @@
+[[redirects]]
+from = "/index.html"
+to = "/"
+force = true
+
+[[redirects]]
+from = "/home"
+to = "/"
+force = true
+
+[[redirects]]
+from = "/index"
+to = "/"
+force = true

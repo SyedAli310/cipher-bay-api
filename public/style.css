@@ -1,0 +1,692 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap");
+:root {
+  --delay: 0.5s;
+  --MAIN__BG__COLOR: #1b1b1b;
+  --MAIN__ACCENT__COLOR: #4169e1;
+  --SECONDARY__GREY__COLOR: #404040;
+  --PRIMARY__GREY__COLOR: #353535;
+  --SUCCESS__COLOR: #48C78E;
+  --ERROR__COLOR: #f44336;
+  --WHITE__COLOR: #fff;
+  --BLACK__COLOR: #000;
+}
+body,
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Quicksand", sans-serif;
+}
+body {
+  background-color: var(--MAIN__BG__COLOR);
+}
+
+ion-icon {
+  pointer-events: none;
+}
+
+::selection {
+  background-color: var(--MAIN__ACCENT__COLOR);
+  color: var(--WHITE__COLOR);
+}
+/* width */
+body::-webkit-scrollbar {
+  width: 8px;
+}
+/* Track */
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+body::-webkit-scrollbar-thumb {
+  background-color: var(--SECONDARY__GREY__COLOR);
+  transition: all ease 0.3s;
+}
+
+/* Handle on hover */
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--MAIN__ACCENT__COLOR);
+}
+
+.container {
+  width: 90vw;
+  height: 100%;
+  margin: 0 auto;
+}
+.header {
+  color: var(--MAIN__ACCENT__COLOR);
+}
+
+.selects {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 2rem 0;
+  color: var(--MAIN__ACCENT__COLOR);
+}
+
+.scheme-selection-div,
+.conversion-selection-div {
+  flex-grow: 0;
+  flex-shrink: 1;
+}
+.scheme-selection-div h2,
+.conversion-selection-div h2 {
+  margin-bottom: 1rem;
+}
+#conversion-select-btns,
+#scheme-select-btns {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.info-modal-btn {
+  background: transparent;
+  border: none;
+  font-size: x-large;
+  cursor: pointer;
+  color: var(--WHITE__COLOR);
+  transition: all 0.3s ease;
+}
+.info-modal-btn:hover {
+  color: var(--MAIN__ACCENT__COLOR);
+}
+.info-modal .modal-body{
+  line-height: 1.625;
+  font-size: 1.25rem;
+}
+.info-modal .modal-body ul,
+.info-modal .modal-body li {
+  list-style:disc;
+}
+.info-modal .modal-body .alias-example-info-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.alias-example-info-container .alias-example-item{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.alias-example-info-container .alias-example-item i{
+  color: var(--SUCCESS__COLOR);
+}
+.alias-example-info-container .alias-example-item b{
+  color: var(--MAIN__ACCENT__COLOR);
+}
+.schemes-modal .modal-body p{
+  margin-bottom: 1rem ;
+}
+.scheme-selection-div .schemes-modal-btn.blocked {
+  opacity: 0.25;
+  user-select: none;
+}
+.scheme-selection-div .schemes-modal-btn.blocked {
+  cursor: not-allowed;
+}
+.scheme-selection-div .schemes-modal-btn {
+  transition: all 0.3s ease;
+}
+.scheme-selection-div .schemes-modal-btn:hover {
+  color: var(--SUCCESS__COLOR);
+  filter: none;
+  outline: 1px solid var(--SUCCESS__COLOR);
+}
+.scheme-selection-div .schemes-modal-btn.blocked:hover {
+  color: var(--ERROR__COLOR);
+  filter: none;
+  outline: 1px solid var(--ERROR__COLOR);
+}
+
+.scheme-select-btn:focus-visible,
+.schemes-modal-btn:focus-visible,
+.conversion-select-btn:focus-visible {
+  outline: 1.5px solid cyan;
+  outline-offset: 2px;
+}
+.scheme-select-btn.selected,
+.conversion-select-btn.selected {
+  background-color: var(--SUCCESS__COLOR);
+  color: var(--WHITE__COLOR);
+  box-shadow: -4px -4px 0px 0px var(--WHITE__COLOR);
+  transform: translate(1px, 2px);
+  transition: all ease 300ms;
+}
+
+.btn {
+  background-color: var(--WHITE__COLOR);
+  padding: 0.5rem 1rem;
+  color: var(--BLACK__COLOR);
+  border: none;
+  border-radius: 5px;
+  font-size: larger;
+  cursor: pointer;
+  transition: all ease 300ms;
+}
+
+.btn:hover {
+  filter: brightness(90%);
+}
+.btn:active{
+  transform: scale(0.9);
+}
+
+/* modal styles start  */
+.modal {
+  position: relative;
+  display: none;
+  justify-content: center;
+  align-items: flex-start;
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+}
+.modal::-webkit-scrollbar {
+  display: none;
+}
+.modal.open {
+  display: flex;
+}
+.modal-content {
+  position: relative;
+  background-color: var(--MAIN__BG__COLOR);
+  padding: 1rem;
+  margin: 5rem auto;
+  width: 60%;
+  min-height: 70vh;
+  height: auto;
+  border-radius: 5px;
+  border: 1px solid var(--WHITE__COLOR);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  animation: modalAppear 0.5s ease;
+}
+@media (max-width: 768px) {
+  .modal-content {
+    width: 85vw;
+  }
+  .modal-body {
+    height: 70vh;
+  }
+  .error-modal .modal-content{
+    width: 90vw !important;
+  }
+}
+@media (max-width: 550px) {
+  .sort-and-info .container {
+    padding-top: 1rem;
+  }
+}
+@-webkit-keyframes modalAppear {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+@keyframes modalAppear {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  position: relative;
+  border-bottom: 1.5px solid var(--WHITE__COLOR);
+  color: var(--MAIN__ACCENT__COLOR);
+}
+.modal-header h2 {
+  display: flex;
+  align-items: center;
+  font-size: 2em;
+  padding: 0.5rem 0;
+}
+.modal-close-btn {
+  height: 2.25rem;
+  width: 2.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+  background-color: var(--ERROR__COLOR);
+  color: var(--BLACK__COLOR);
+  outline: none;
+  border: 1.5px solid var(--WHITE);
+  font-size: x-large;
+  border-radius: 100%;
+  z-index: 9999;
+  transition: all ease 300ms;
+}
+.modal-close-btn:hover {
+  background-color: var(--WHITE__COLOR);
+  color: var(--ERROR__COLOR);
+}
+.modal-close-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0px 0px 5px var(--TEXT_DANGER);
+}
+.modal-close-btn > ion-icon {
+  transition: all ease 300ms;
+}
+.modal-close-btn:hover > ion-icon {
+  transform: rotate(180deg);
+}
+
+.modal-body {
+  height: 50vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  color: var(--WHITE__COLOR);
+  padding: 0.75rem;
+  margin-top: 1rem;
+}
+.modal-body::-webkit-scrollbar {
+  background-color: transparent;
+  width: 5px;
+}
+.modal-body::-webkit-scrollbar-thumb {
+  background-color: var(--BLACK__COLOR);
+  border-radius: 10px;
+}
+.modal-footer {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  background-color: inherit;
+  padding-top: 1rem;
+  width: 100%;
+  color: var(--WHITE__COLOR);
+}
+.modal-footer .modal-close-btn{
+  position: relative;
+  top: unset;
+  right: unset;
+  width: 100%;
+  font-size: 14px;
+  border-radius: 4px;
+  background-color: var(--SECONDARY__GREY__COLOR);
+  color: var(--ERROR__COLOR);
+  font-weight: bold;
+  z-index: auto;
+}
+.modal-footer .modal-close-btn:hover{
+  background-color: var(--ERROR__COLOR);
+  color: var(--WHITE__COLOR);
+}
+/* modal styles end  */
+
+/* special styles for error modal (prompt) */
+.error-modal {
+  background-color: rgb(27, 27, 27,0.5);
+  backdrop-filter: none;
+}
+.error-modal .modal-content {
+  position: relative;
+  background-color: var(--MAIN__BG__COLOR);
+  padding: 1rem;
+  margin: 1.25rem auto;
+  width: 40%;
+  min-height: 10vh;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--WHITE__COLOR);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  animation: modalAppear 0.5s ease;
+  color: var(--WHITE__COLOR);
+}
+.error-modal .modal-header{
+  color: var(--ERROR__COLOR);
+}
+.error-modal .modal-body{
+  height: 10vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  color: var(--WHITE__COLOR);
+  padding: 0.75rem;
+  margin-top: 1rem;
+  font-size: 18px;
+}
+.error-modal .modal-footer .modal-close-btn{
+  width: max-content;
+  padding: 0.25rem 0.5rem;
+}
+
+
+#main-form {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--WHITE__COLOR);
+  background-color: var(--MAIN__BG__COLOR);
+  border-radius: 8px;
+  padding: 1rem 0;
+  transition: all ease 300ms;
+  z-index: 10;
+}
+#main-form::after,
+#main-form::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: var(--MAIN__BG__COLOR);
+  transition: all ease 300ms;
+}
+#main-form::before {
+  top: 0;
+  left: 0;
+}
+#main-form::after {
+  top: 0;
+  right: 0;
+}
+#main-form .input-div {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  border-radius: 8px;
+  border: 1.5px solid var(--WHITE__COLOR);
+  padding: 0 1rem;
+  background-color: var(--MAIN__BG__COLOR);
+  color: var(--WHITE__COLOR);
+  transition: all ease 300ms;
+}
+#main-form .input-div legend {
+  padding: 0 0.5rem;
+  text-transform: uppercase;
+  color: var(--MAIN__ACCENT__COLOR);
+}
+#main-form .input-div:focus-within {
+  border: 1.5px solid var(--MAIN__ACCENT__COLOR);
+}
+.spaced::-webkit-input-placeholder {
+  letter-spacing: 1.25px;
+  transform: translateX(10px);
+}
+@keyframes flip-flop {
+  0% {
+    transform: skew(0deg);
+  }
+  25% {
+    transform: skew(70deg);
+  }
+  50% {
+    transform: skew(0deg);
+  }
+  75% {
+    transform: skew(-70deg);
+  }
+  100% {
+    transform: skew(0deg);
+  }
+}
+#input-text {
+  width: 100%;
+  padding: 1rem 3rem 1rem 0.5rem;
+  font-size: 20px;
+  border: none;
+  color: var(--WHITE__COLOR);
+  background: transparent;
+  transition: all ease 300ms;
+}
+#input-text::placeholder {
+  transition: all ease 300ms;
+}
+
+#input-text:focus-visible {
+  outline: none;
+}
+#input-text:focus-visible::placeholder {
+  color: rosybrown;
+}
+
+#main-form .input-div button[type="submit"] {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-65%);
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  border-radius: 100%;
+  color: var(--WHITE__COLOR);
+  outline: 1.5px solid var(--WHITE__COLOR);
+  background: transparent;
+  border: none;
+  font-size: x-large;
+  cursor: pointer;
+  transition: all ease 300ms;
+}
+#main-form .input-div button:hover,
+#main-form .input-div button:focus,
+#main-form .input-div button:focus-visible {
+  outline: 1.5px solid var(--SUCCESS__COLOR);
+  color: var(--SUCCESS__COLOR);
+}
+#main-form .input-div button[type="submit"] ion-icon {
+  transition: all ease 300ms;
+}
+#input-text:focus + button[type="submit"] ion-icon {
+  transform: scale(1.2);
+}
+
+#output {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  color: var(--WHITE__COLOR);
+  padding: 1rem;
+  margin-top: 2rem;
+  border: 1.5px solid var(--SUCCESS__COLOR);
+  border-radius: 8px;
+  transition: all ease 300ms;
+}
+.copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  font-size: smaller;
+  border-radius: 4px;
+  margin: 0;
+  background-color: var(--MAIN__BG__COLOR);
+  outline: 1px solid var(--WHITE__COLOR);
+  color: var(--MAIN__ACCENT__COLOR);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(20%);
+}
+
+#output legend {
+  padding: 0 0.5rem;
+  text-transform: uppercase;
+  color: var(--SUCCESS__COLOR);
+}
+
+#output #text-inp,
+#output #text-out {
+  min-height: 53px;
+  height: auto;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+#output #text-inp #text-inp-head,
+#output #text-out #text-out-head {
+  font-size: 22px;
+  font-weight: bold;
+}
+#output #text-inp #text-inp-body,
+#output #text-out #text-out-body {
+  position: relative;
+  width: 100%;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  font-size: 20px;
+  border: none;
+  border-radius: 5px;
+  color: var(--WHITE__COLOR);
+  background-color: var(--PRIMARY__GREY__COLOR);
+  transition: all ease 300ms;
+}
+#output #text-inp #text-inp-body {
+  color: var(--MAIN__ACCENT__COLOR);
+}
+#output #text-out #text-out-body {
+  color: var(--SUCCESS__COLOR);
+}
+#output #text-inp #text-inp-body:hover > .copy-btn,
+#output #text-out #text-out-body:hover > .copy-btn {
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.schemes-info {
+  color: var(--WHITE__COLOR);
+  margin: 2rem 0;
+}
+
+#spinner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+#spinner span {
+  animation: color-animation 2.5s infinite alternate linear;
+  transition: all ease 300ms;
+}
+#spinner div {
+  height: 5px;
+  width: 5px;
+  border-radius: 50%;
+  background-color: var(--WHITE__COLOR);
+  animation: grow-shrink ease 1s infinite;
+}
+#spinner div:nth-child(1) {
+  animation-delay: calc(var(--delay) * 0);
+}
+#spinner div:nth-child(2) {
+  animation-delay: calc(var(--delay) * 1);
+}
+#spinner div:nth-child(3) {
+  animation-delay: calc(var(--delay) * 2);
+}
+@keyframes grow-shrink {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2.5px);
+    background-color: var(--SUCCESS__COLOR);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@-webkit-keyframes grow-shrink {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2.5px);
+    background-color: var(--SUCCESS__COLOR);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes color-animation {
+  0% {
+    color: var(--ERROR__COLOR);
+  }
+
+  20% {
+    color: #ff8040;
+  }
+
+  40% {
+    color: #ffff00;
+  }
+
+  60% {
+    color: var(--SUCCESS__COLOR);
+  }
+
+  80% {
+    color: var(--MAIN__ACCENT__COLOR);
+  }
+
+  100% {
+    color: #8080ff;
+  }
+}
+@-webkit-keyframes color-animation {
+  0% {
+    color: var(--ERROR__COLOR);
+  }
+
+  20% {
+    color: #ff8040;
+  }
+
+  40% {
+    color: #ffff00;
+  }
+
+  60% {
+    color: var(--SUCCESS__COLOR);
+  }
+
+  80% {
+    color: var(--MAIN__ACCENT__COLOR);
+  }
+
+  100% {
+    color: #8080ff;
+  }
+}

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Convert your text to Ciphers and back with Cipher-Bay"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="./img/favicon-1.png" />
+    <title>cipher bay</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="selects">
+        <div class="scheme-selection-div">
+          <h2>
+            Select a scheme&nbsp;<button class="info-modal-btn">
+              <ion-icon name="information-circle-outline"></ion-icon>
+            </button>
+          </h2>
+          <button class="btn schemes-modal-btn">
+            Change scheme
+          </button>
+        </div>
+
+        <div class="conversion-selection-div">
+          <h2>Select a conversion</h2>
+          <div id="conversion-select-btns">
+            <button
+              class="btn conversion-select-btn selected"
+              conversion="encode"
+            >
+              encode
+            </button>
+            <button
+              class="btn conversion-select-btn"
+              type="submit"
+              conversion="decode"
+            >
+              decode
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <form id="main-form" conversion-method="encode">
+        <fieldset class="input-div">
+          <legend>
+             <span id="dyn-legend-method">ENCODE</span>
+            <span style="color: white" id="dyn-inp-div-scheme"></span>
+          </legend>
+          <input
+            id="input-text"
+            name="input-text"
+            placeholder="enter string to encode"
+            autocomplete="off"
+            required
+          />
+          <button type="submit">
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </button>
+        </fieldset>
+      </form>
+
+      <fieldset id="output">
+        <legend>
+          output <span style="color: white" id="dyn-legend-scheme"></span>
+        </legend>
+        <div id="text-inp">
+          <h3 id="text-inp-head">
+            Text
+            <span style="font-size: small; color: royalblue">to decode</span>
+          </h3>
+          <div id="text-inp-body">
+            <span style="opacity: 0.75; filter: blur(2px)"
+              >ciphers are fun</span
+            >
+          </div>
+        </div>
+        <div id="text-out">
+          <h3 id="text-out-head">
+            Cipher
+            <span style="font-size: small; color: royalblue">from text</span>
+          </h3>
+          <div id="text-out-body">
+            <span style="opacity: 0.75; filter: blur(2px)"
+              >12-90-272-72-30-342-380 2-342-30 42-462-210@1</span
+            >
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="modal info-modal">
+        <div class="modal-content">
+          <button class="modal-close-btn">
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+          <div class="modal-header">
+            <h2>What are schemes?</h2>
+          </div>
+          <div class="modal-body">
+            <ul>
+              <li> 
+                A cipher scheme is the method used for encrypting a text/string by
+                using a set of key-values set for that scheme. Cipher-Bay API uses
+                schemes to encode and decode text. Different shemes have different
+                keys and values set to encode and decode your string/text
+                accurately.
+              </li>
+              <br>
+              <li> 
+                The currently available schemes on Cipher-Bay API can be viewed  
+                <button class="schemes-modal-btn" style="background: none; border: none; color: royalblue; font-size: inherit;">here</button>.
+                You can choose any of these schemes to encode your text.
+              </li>
+              <br>
+              <li>
+                The text/string is decoded with the same scheme which was used to
+                encode them to get the desirable output. However, you don't need
+                to remember the scheme you used to encode a string, the encoded cipher has
+                a scheme flag associated with it for that recognition.
+              </li>
+              <br>           
+              <li>
+                The schemes come with pre set alias to make them easier to use.
+                Some examples of aliases are :
+                <div class="alias-example-info-container">
+                  <div class="alias-example-item">
+                    <i>scheme_1 <span style='color: white;'>(scheme)</span></i>
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                    <b>alpha <span style='color: white;'>(alias)</span></b>
+                  </div>
+                  <div class="alias-example-item">
+                    <i>scheme_2 <span style='color: white;'>(scheme)</span></i>
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                    <b>beta <span style='color: white;'>(alias)</span></b>
+                  </div>
+                  <div class="alias-example-item">
+                    <i>scheme_3 <span style='color: white;'>(scheme)</span></i>
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                    <b>gamma <span style='color: white;'>(alias)</span></b>
+                  </div>
+                </div> 
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal schemes-modal">
+        <div class="modal-content">
+          <button class="modal-close-btn">
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+          <div class="modal-header">
+            <h2>Select scheme to encode/decode</h2>
+          </div>
+          <div class="modal-body">
+            <p>Selected : <span id="dyn-selected-scheme" style="color: #48c78e;"></span></p>
+            <p>All Schemes : </p>
+            <div id="scheme-select-btns"></div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn modal-close-btn">
+              close
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal error-modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 id="dyn-error-header">Error 404</h2>
+          </div>
+          <div class="modal-body">
+            <p id="dyn-error-body">this is a test error modal msg body</p>
+          </div>
+          <div class="modal-footer">
+            <button class="modal-close-btn">
+              close
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- //modal placeholder -->
+      <div class="modal new-modal">
+        <div class="modal-content">
+          <button class="modal-close-btn">
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+          <div class="modal-header">
+            <h2>New Modal</h2>
+          </div>
+          <div class="modal-body">
+            <div class="demo-content">
+              <h2>This is a new modal with some demo content <br></h2>
+              <br>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Voluptatum, quisquam.
+              </p>
+              <br>
+              <button class="btn">demo-btn_1</button>
+              <button class="btn">demo-btn_2</button>
+              <button class="btn">demo-btn_3</button>
+              <br><br>
+              <marquee behavior="alternate" direction="forwards">demo modal</marquee>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- under development not useable yet -->
+      <div class="dev-msg" style="margin-top: 1rem;">
+        <i style="text-align: center; color: peru;display: flex; align-items: center; gap: 0.5rem;">
+          <b>
+            <span style="color: crimson; font-size: large;display: flex; align-items: center; gap: 0.5rem;">
+              <ion-icon name="construct-outline"></ion-icon>
+              DEVELOPMENT MODE
+            </span>
+          </b>
+          <span style="color: royalblue;">* not usable yet *</span>
+        </i>
+      </div>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+    ></script>
+    <script src="app.js"></script>
+  </body>
+</html>

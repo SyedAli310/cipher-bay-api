@@ -22,6 +22,7 @@ app.use(
   })
 );
 app.use(express.json({limit: '10mb'}));
+app.use(express.static("public"));
 
 // extra packages
 app.use(helmet());
@@ -30,7 +31,7 @@ app.use(xss());
 
 //base route
 app.get("/", (req, res) => {
-  res.redirect("https://cipher-bay.netlify.app");
+  res.sendFile(__dirname + "/public/index.html");
 });
 
 //routes
