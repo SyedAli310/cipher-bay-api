@@ -23,6 +23,10 @@ app.use(
 );
 app.use(express.json({limit: '10mb'}));
 app.use(express.static("public"));
+// Handling non matching request from the client
+app.use((req, res, next) => {
+  res.status(404).sendFile(__dirname + "/public/404.html");
+})
 
 // extra packages
 app.use(helmet());
