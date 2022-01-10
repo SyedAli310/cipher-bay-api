@@ -23,10 +23,6 @@ app.use(
 );
 app.use(express.json({limit: '10mb'}));
 app.use(express.static("public"));
-// Handling non matching request from the client
-app.use((req, res, next) => {
-  res.status(404).sendFile(__dirname + "/public/404.html");
-})
 
 // extra packages
 app.use(helmet());
@@ -40,6 +36,11 @@ app.get("/", (req, res) => {
 
 //routes
 app.use("/api/v1/cipher", auth, cipherRouter);
+// Handling non matching request from the client
+app.use((req, res, next) => {
+  res.status(404).sendFile(__dirname + "/public/404.html");
+})
+
 
 
 const PORT = process.env.PORT || 5000;
