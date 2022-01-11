@@ -3,7 +3,7 @@
 const BASE_URL  = '/api/v1/cipher';
 const API_KEY = "nRwgKaP8GVzSybkzriiTCxRuQaRJ59kj";
 let METHOD = "encode";
-let SCHEME = localStorage.getItem('scheme') || "scheme_ty3-xda";
+let SCHEME = localStorage.getItem('scheme') || "scheme_zevqnm-wavv";
 
 let URL_GLOBAL;
 let BODY = {};
