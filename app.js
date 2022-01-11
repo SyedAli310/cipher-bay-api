@@ -26,7 +26,7 @@ app.use(
     max: 250,
   })
 );
-app.use(express.json({limit: '10mb'}));
+app.use(express.json({ limit: "10mb" }));
 app.use(express.static("public"));
 
 // extra packages
@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
 });
 app.get("/github/repo", (req, res) => {
-  res.redirect('https://github.com/SyedAli310/cipher-bay-api');
+  res.redirect("https://github.com/SyedAli310/cipher-bay-api");
 });
 
 //routes
@@ -49,9 +49,7 @@ app.use("/api/v1/scheme", auth, adminCheck, schemeRouter);
 // Handling non matching request from the client
 app.use((req, res, next) => {
   res.status(404).sendFile(__dirname + "/public/404.html");
-})
-
-
+});
 
 const PORT = process.env.PORT || 5000;
 
@@ -64,6 +62,6 @@ const startServer = async () => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 startServer();
