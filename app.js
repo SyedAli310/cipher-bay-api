@@ -29,9 +29,12 @@ app.use(helmet());
 app.use(cors());
 app.use(xss());
 
-//base route
+//base routes
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
+});
+app.get("/github/repo", (req, res) => {
+  res.redirect('https://github.com/SyedAli310/cipher-bay-api');
 });
 
 //routes
