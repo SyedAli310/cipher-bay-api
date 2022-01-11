@@ -44,7 +44,7 @@ app.get("/github/repo", (req, res) => {
 
 //routes
 app.use("/api/v1/cipher", auth, cipherRouter);
-app.use("/api/v1/scheme", adminCheck, schemeRouter);
+app.use("/api/v1/scheme", auth, adminCheck, schemeRouter);
 
 // Handling non matching request from the client
 app.use((req, res, next) => {
