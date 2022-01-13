@@ -24,6 +24,35 @@ const viewSchemes = async (req, res) => {
     }
 }
 
+const addScheme = async (req, res) => {
+    const { name, alias, encode, decode } = req.body;
+    try {
+        const scheme = await Scheme.create({
+            name,
+            alias,
+            encode,
+            decode,
+        });
+        if(!scheme) {
+            return res.status(404).json({
+                error: true,
+                msg: "Could not add the scheme to the database"
+            });
+        }
+        res.status(201).json({
+            error: false,
+            msg: "Scheme added successfully",
+            scheme: scheme
+        });
+    } catch (error) {
+        res.status(500).json({
+            error: true,
+            msg: error.message
+        });
+    }
+}
+
 module.exports = {
-    viewSchemes
+    viewSchemes,
+    addScheme
 }
