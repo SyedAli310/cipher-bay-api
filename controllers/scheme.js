@@ -1,8 +1,10 @@
 const Scheme = require("../models/Scheme");
 
 const viewSchemes = async (req, res) => {
+    const { id } = req.params;
     try {
-        const schemes = await Scheme.find();
+
+        const schemes = await Scheme.find({ _id: id ? id : { $ne: null } });
         if(!schemes) {
             return res.status(404).json({
                 error: true,
