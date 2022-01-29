@@ -272,7 +272,7 @@ $("#main-form").on("submit", async (e) => {
     if(!SCHEME_ALIAS_OBJ || SCHEME_ALIAS_OBJ.length === 0){
       await fillSchemesToModal()
     }
-    let scheme__dynamic = SCHEME_ALIAS_OBJ.find( (scheme) => scheme.name === SCHEME).alias;
+    let scheme__dynamic = SCHEME_ALIAS_OBJ.find( (scheme) => scheme.name === data.schemeUsed).alias;
     let inpHead__dynamic = data.encoded
       ? "Text"
       : data.decoded
