@@ -390,7 +390,7 @@ body::-webkit-scrollbar-thumb:hover {
   align-items: center;
   color: var(--WHITE__COLOR);
   background-color: var(--MAIN__BG__COLOR);
-  border-radius: 8px;
+  /* border-radius: 8px; */
   padding: 1rem 0;
   transition: all ease 300ms;
   z-index: 10;
