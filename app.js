@@ -38,6 +38,9 @@ app.use(xss());
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
 });
+app.get("/dash", (req, res) => {
+  res.sendFile(__dirname + "/public/pages/dashboard.html");
+});
 app.get("/github/repo", (req, res) => {
   res.redirect("https://github.com/SyedAli310/cipher-bay-api");
 });
