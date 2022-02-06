@@ -129,6 +129,13 @@ body::-webkit-scrollbar-thumb:hover {
 .schemes-modal .modal-body p{
   margin-bottom: 1rem ;
 }
+.schemes-modal .modal-footer .modal-close-btn{
+  color: var(--SUCCESS__COLOR);
+}
+.schemes-modal .modal-footer .modal-close-btn:hover{
+  background-color: var(--SUCCESS__COLOR);
+  color: var(--WHITE);
+}
 .scheme-selection-div .schemes-modal-btn.blocked {
   opacity: 0.25;
   user-select: none;
@@ -173,14 +180,14 @@ body::-webkit-scrollbar-thumb:hover {
   border-radius: 5px;
   font-size: larger;
   cursor: pointer;
-  transition: all ease 300ms;
+  transition: all ease 200ms;
 }
 
 .btn:hover {
   filter: brightness(90%);
 }
 .btn:active{
-  transform: scale(0.9);
+  transform: scale(0.95);
 }
 
 /* modal styles start  */
