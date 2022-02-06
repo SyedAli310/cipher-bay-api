@@ -12,7 +12,7 @@ const adminCheck = (req, res, next) => {
     if(adminSecret !== process.env.ADMIN_SECRET){
         return res.status(401).json({
             error: true, 
-            msg: "incorrect or unauthorized admin token porvided",
+            msg: "incorrect or unauthorized admin token provided",
             providedSecret: adminSecret
         });
     }
