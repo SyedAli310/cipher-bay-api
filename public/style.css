@@ -76,6 +76,7 @@ body::-webkit-scrollbar-thumb:hover {
 }
 .scheme-selection-div h2,
 .conversion-selection-div h2 {
+  text-align: center;
   margin-bottom: 1rem;
 }
 #conversion-select-btns,
