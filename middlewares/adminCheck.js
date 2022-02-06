@@ -6,13 +6,13 @@ const adminCheck = (req, res, next) => {
     if(!adminSecret){
         return res.status(401).json({
             error: true, 
-            msg: "please provide an admin secret to access this resource",
+            msg: "please provide an admin token",
         });
     }
     if(adminSecret !== process.env.ADMIN_SECRET){
         return res.status(401).json({
             error: true, 
-            msg: "you are not authorized or don't have admin rights to access this resource",
+            msg: "incorrect or unauthorized admin token porvided",
             providedSecret: adminSecret
         });
     }
