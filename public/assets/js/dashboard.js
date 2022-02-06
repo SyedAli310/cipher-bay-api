@@ -32,7 +32,7 @@ const fetchCipherData__API = async (method, url, body, adminSecret) => {
       return error.message;
     }
   };
-
+document.getElementById('show-prompt-btn').addEventListener('click', showPrompt);
 window.onload = async () => {
     showPrompt();
     document.getElementById('admin-token-form').addEventListener('submit', async (e) => {
@@ -40,10 +40,17 @@ window.onload = async () => {
         const adminSecret = document.getElementById('admin-secret').value;
         const data = await fetchCipherData__API('GET', '/api/v1/scheme/view', null, adminSecret);
         console.log(data);
+        errModal.classList.remove('open');
         if(data.error) {
             resMsg.innerHTML = data.msg;
             resMsg.classList.add('error');
             return;
         }
+        resMsg.innerHTML = '';
+        resMsg.classList.remove('error');
+        resMsg.classList.add('success');
+        data.scheme.forEach(scheme => {
+            resMsg.innerHTML += `<p>${scheme.alias}</p>`;
+        });
     });
 }

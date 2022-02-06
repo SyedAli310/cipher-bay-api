@@ -12,12 +12,17 @@
     .error{
         color: var(--ERROR__COLOR);
     }
+    .success{
+        color: var(--SUCCESS__COLOR);
+    }
 </style>
 <body>
     <div class="container">
-        <h1 style="color: var(--SUCCESS__COLOR);">Dashboard</h1>
-        <button class="btn" onclick="showPrompt()">Verify admin secret</button>
-        <p style="color: var(--ERROR__COLOR);" data-admin-response></p>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem;">
+          <h1 style="color: var(--SUCCESS__COLOR);">Dashboard</h1>
+        <button class="btn" id="show-prompt-btn">Verify admin secret</button>
+        </div>
+        <p data-admin-response style="text-align: center; margin-top: 5rem;"></p>
     </div>
     
     <div class="modal error-modal">
