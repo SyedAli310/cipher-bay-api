@@ -14,7 +14,7 @@ const viewSchemes = async (req, res) => {
         res.status(200).json({
         error: false,
         scheme: schemes,
-        count: schemes.length,
+        schemes_count: schemes.length,
         });
     } catch (error) {
         res.status(500).json({
