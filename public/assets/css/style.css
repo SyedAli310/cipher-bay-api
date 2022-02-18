@@ -146,11 +146,6 @@ body::-webkit-scrollbar-thumb:hover {
 .scheme-selection-div .schemes-modal-btn {
   transition: all 0.3s ease;
 }
-.scheme-selection-div .schemes-modal-btn:hover {
-  color: var(--SUCCESS__COLOR);
-  filter: none;
-  outline: 1px solid var(--SUCCESS__COLOR);
-}
 .scheme-selection-div .schemes-modal-btn.blocked:hover {
   color: var(--ERROR__COLOR);
   filter: none;
@@ -165,29 +160,45 @@ body::-webkit-scrollbar-thumb:hover {
 }
 .scheme-select-btn.selected,
 .conversion-select-btn.selected {
+  position: relative;
+  color: var(--SUCCESS__COLOR);
+  border: 1px solid var(--SUCCESS__COLOR) !important;
+  overflow: hidden;
+  transition: all ease 300ms;
+}
+.scheme-select-btn.selected::before,
+.conversion-select-btn.selected::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 5px;
   background-color: var(--SUCCESS__COLOR);
-  color: var(--WHITE__COLOR);
-  box-shadow: -4px -4px 0px 0px var(--WHITE__COLOR);
-  transform: translate(1px, 2px);
+  /* box-shadow: 1px 1px 6px var(--SUCCESS__COLOR); */
+  overflow: hidden;
   transition: all ease 300ms;
 }
 
 .btn {
-  background-color: var(--WHITE__COLOR);
+  position: relative;
+  background-color: var(--SECONDARY__GREY__COLOR);
   padding: 0.5rem 1rem;
-  color: var(--BLACK__COLOR);
-  border: none;
+  color: var(--WHITE__COLOR);
+  border: 1px solid var(--SECONDARY__GREY__COLOR);
+  /* border: none; */
   border-radius: 5px;
   font-size: larger;
   cursor: pointer;
-  transition: all ease 200ms;
+  transition: all ease 300ms;
 }
 
 .btn:hover {
-  filter: brightness(90%);
+  border: 1px solid var(--WHITE__COLOR);
 }
 .btn:active{
-  transform: scale(0.95);
+  transform: translateY(2.5px);
 }
 
 /* modal styles start  */
