@@ -97,4 +97,17 @@ const schemes = async (req, res) => {
   res.status(200).json({ error: false, info, schemes_count:validSchemes.length, schemes: validSchemes });
 };
 
-module.exports = { encoder, decoder, schemes };
+const adminLogin = async (req, res) => {
+  const { adminSecret } = req.body;
+  if (adminSecret && adminSecret === process.env.ADMIN_SECRET) {
+    req.session.adminSecret = adminSecret;
+    res.status(200).json({ error: false, msg: "admin logged in" });
+  } else {
+    res.status(401).json({
+      error: true,
+      msg: "please provide a valid admin secret",
+    });
+  }
+}
+
+module.exports = { encoder, decoder, schemes, adminLogin }
