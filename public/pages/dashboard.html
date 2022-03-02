@@ -1,51 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
     <title>Dash / cipherbay</title>
-</head>
-<style>
-    .error{
-        color: var(--ERROR__COLOR);
-    }
-    .success{
-        color: var(--SUCCESS__COLOR);
-    }
-</style>
-<body>
+  </head>
+
+  <body>
     <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem;">
-          <h1 style="color: var(--SUCCESS__COLOR);">Dashboard</h1>
-        <button class="btn" id="show-prompt-btn">Verify admin secret</button>
+      <div class="dash-header">
+        <div class="dash-title">
+          <h1><a href="./dash">Dashboard</a></h1>
+            <a href="/" class="go-home"> &#8592; Go Home</a>
         </div>
-        <p data-admin-response style="text-align: center; margin-top: 5rem;"></p>
+        <button class="btn show-login-prompt-btn">Login</button>
+      </div>
+      <p class="login-response" id="login-response" title="Only-Admin Access"></p>
+      <div class="scheme-list-wrapper">
+        <ul id="scheme-list" class="scheme-list">
+          <h2 id="dyn-scheme-list-title" style="margin-block: 1rem; color: var(--WHITE__COLOR);"></h2>
+        </ul>
+      </div>
     </div>
-    
-    <div class="modal error-modal">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h2>Enter admin token</h2>
+
+    <div class="modal admin-login-modal">
+      <div class="modal-content">
+        <button class="modal-close-btn" style="font-size: xx-large">
+          &times;
+        </button>
+        <div class="modal-header">
+          <h2>Verify Admin Login</h2>
+        </div>
+        <div class="modal-body">
+          <div class="admin-login-response" data-login-response></div>
+
+          <form id="admin-login-form">
+            <fieldset class="input-div">
+              <legend id="dyn-legend-method">Enter admin secret</legend>
+              <input
+                type="text"
+                id="admin-secret-inp"
+                name="admin-secret-inp"
+                placeholder="enter token here..."
+                autocomplete="off"
+                required
+              />
+            </fieldset>
+            <input class="btn" type="submit" value="Verify" />
+          </form>
+          <br><hr>
+          <div class="admin-login-note">
+            <h4 class="note-title">Note:</h4>
+            <ul class="note-list">
+              <li>
+                You can only get access to schemes dashboard if you're the owner
+                of <a href="/">Cipher Bay</a> or you have admin rights.
+              </li>
+              <li>
+                Admin rights can only be given through the owner/devs by
+                generating a admin secret.
+              </li>
+              <li>
+                If you belive you should have access to schemes dashboard, send
+                us your application/request here
+                <a
+                  href="mailto:alizaidi310@gmail.com?subject=Access to Cipher Bay schemes dashboard."
+                  >here</a
+                >
+              </li>
+            </ul>
           </div>
-          <div class="modal-body">
-            <form id="admin-token-form">
-                <input type="text" name="adminToken" id="admin-secret" placeholder="Enter admin token">
-                <input type="submit" value="Submit">
-            </form>
-          </div>
-          <div class="modal-footer">
+        </div>
+        <!-- <div class="modal-footer">
             <button class="modal-close-btn">
               close
             </button>
-          </div>
-        </div>
+          </div> -->
+      </div>
     </div>
 
-    <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="../assets/js/dashboard.js"></script>
-</body>
+  </body>
 </html>
