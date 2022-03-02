@@ -1,22 +1,17 @@
-require('dotenv').config();
+require("dotenv").config();
 
 const adminCheck = (req, res, next) => {
-    // get admin secret from header
-    const adminSecret = req.header('adminSecret');
-    if(!adminSecret){
-        return res.status(401).json({
-            error: true, 
-            msg: "please provide an admin token",
-        });
-    }
-    if(adminSecret !== process.env.ADMIN_SECRET){
-        return res.status(401).json({
-            error: true, 
-            msg: "incorrect or unauthorized admin token provided",
-            providedSecret: adminSecret
-        });
-    }
+  // get admin secret from session
+  const { adminSecret } = req.session;
+  // compare admin secret with the one from the request
+  if (adminSecret && adminSecret === process.env.ADMIN_SECRET) {
     next();
+  } else {
+    res.status(401).json({
+      status: 401,
+      error: "Unauthorized - Admin access only",
+    });
+  }
 };
 
 module.exports = adminCheck;
