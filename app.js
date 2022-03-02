@@ -3,6 +3,7 @@ const helmet = require("helmet");
 const cors = require("cors");
 const xss = require("xss-clean");
 const rateLimiter = require("express-rate-limit");
+const session = require('express-session');
 
 // initialize express app
 const express = require("express");
@@ -28,6 +29,17 @@ app.use(
 );
 app.use(express.json({ limit: "10mb" }));
 app.use(express.static("public"));
+app.use(session({
+  name: process.env.SESS_NAME,
+  secret: process.env.SESS_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60,
+    sameSite: true,
+    secure: process.env.IN_PROD || false,
+  } 
+}))
 
 // extra packages
 app.use(helmet());
