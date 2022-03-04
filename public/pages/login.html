@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="../assets/css/loginForm.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+
+    <link rel="icon" href="../assets/img/favicon-1.png" />
+    <title>Dash &mdash; login</title>
+  </head>
+
+  <body>
+    <div class="container">
+        <div class="admin-login-form-wrapper">
+          <h2 class="admin-login-title">Admin Login</h2>
+          <form id="admin-login-form">
+              <div class="admin-login-response" data-login-response></div>
+              <fieldset class="input-div">
+                <legend id="dyn-legend-method">Enter Secret</legend>
+                <input
+                  type="text"
+                  id="admin-secret-inp"
+                  name="admin-secret-inp"
+                  placeholder="your admin secret..."
+                  autocomplete="off"
+                  required
+                />
+              </fieldset>
+              <input class="btn" type="submit" value="Verify" />
+            </form>
+            <p class="dash-cta">Already authenticated? <a href="/dash" class="a-reset">Go to Dashboard</a></p>
+          </div>
+          <a href="/" class="go-home a-reset"> &#8592; Go Home</a>
+     
+    </div>
+
+
+    <script src="../assets/js/login.js"></script>
+  </body>
+</html>
