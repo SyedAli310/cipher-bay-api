@@ -51,7 +51,14 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
 });
 app.get("/dash", (req, res) => {
+  const { adminSecret } = req.session;
+  if(!adminSecret) {
+    return res.redirect("/login");
+  }
   res.sendFile(__dirname + "/public/pages/dashboard.html");
+});
+app.get("/login", (req, res) => {
+  res.sendFile(__dirname + "/public/pages/login.html");
 });
 app.get("/github/repo", (req, res) => {
   res.redirect("https://github.com/SyedAli310/cipher-bay-api");
