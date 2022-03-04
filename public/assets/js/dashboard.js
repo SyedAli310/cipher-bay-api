@@ -1,27 +1,11 @@
 const resMsg = document.querySelector("#login-response");
 
-const errModal = document.querySelector(".admin-login-modal");
-const errModalCloseBtn = document.querySelector(
-  ".admin-login-modal .modal-close-btn"
-);
-
-const showPromptBtns = document.querySelectorAll(".show-login-prompt-btn");
-const adminLoginForm = document.querySelector("#admin-login-form");
-const adminLoginResponse = document.querySelector("[data-login-response]");
 
 const schemeList = document.querySelector("#scheme-list");
 const dynamicSchemeCount = document.querySelector("#dyn-scheme-list-title");
 
 const API_KEY = "nRwgKaP8GVzSybkzriiTCxRuQaRJ59kj";
 
-const showPrompt = () => {
-  // show prompt
-  errModal.classList.add("open");
-  // bind close event
-  errModalCloseBtn.addEventListener("click", (e) => {
-    errModal.classList.remove("open");
-  });
-};
 
 const fetchCipherData__API = async (method, url, body) => {
   try {
@@ -40,26 +24,16 @@ const fetchCipherData__API = async (method, url, body) => {
     return error.message;
   }
 };
-showPromptBtns.forEach((btn) => {
-  btn.addEventListener("click", showPrompt);
-})
 
-adminLoginForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const adminSecretInp = e.target.querySelector('[name="admin-secret-inp"]').value;
-  const data = await fetchCipherData__API("POST", "/api/v1/cipher/adminLogin", {adminSecret:adminSecretInp});
-  console.log(data);
-  if(data.error) {
-    adminLoginResponse.classList.add("error");
-    adminLoginResponse.innerHTML = data.msg;
-  } else {
-    adminLoginResponse.innerHTML = '';
-    // clear form
-    e.target.reset();
-    showDashboard();
-    errModal.classList.remove("open");
+
+const getSchemes = async () => {
+  try {
+    const data = await fetchCipherData__API("GET", "/api/v1/scheme/view");
+    return data;
+  } catch (error) {
+    return error.message;
   }
-});
+};
 
 const showDashboard = async () => {
   const schemes = await getSchemes();
@@ -88,13 +62,5 @@ const showDashboard = async () => {
 
 }
 
-const getSchemes = async () => {
-  try {
-    const data = await fetchCipherData__API("GET", "/api/v1/scheme/view");
-    return data;
-  } catch (error) {
-    return error.message;
-  }
-};
 
 window.onload = showDashboard();
