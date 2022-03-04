@@ -58,6 +58,18 @@ body::-webkit-scrollbar-thumb:hover {
   color: var(--MAIN__ACCENT__COLOR);
 }
 
+.error{
+  color: var(--ERROR__COLOR);
+}
+.success{
+  color: var(--SUCCESS__COLOR);
+}
+
+.a-reset{
+  text-decoration: none;
+  color: var(--WHITE__COLOR);
+}
+
 .selects {
   width: 100%;
   display: flex;

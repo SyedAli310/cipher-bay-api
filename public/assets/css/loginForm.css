@@ -1,0 +1,101 @@
+.go-home{
+    color: var(--WHITE__COLOR);
+}
+.go-home:hover{
+    color: var(--MAIN__ACCENT__COLOR);
+}
+
+.admin-login-form-wrapper {
+  width: 50vw;
+  outline: 1px solid var(--WHITE__COLOR);
+  padding: 1.5rem;
+  margin: 4rem auto;
+  border-radius: 4px;
+}
+
+.admin-login-form-wrapper .dash-cta{
+    text-align: center;
+    color: var(--WHITE__COLOR);
+}
+.admin-login-form-wrapper .dash-cta a{
+    color:var(--MAIN__ACCENT__COLOR);
+}
+.admin-login-form-wrapper .dash-cta a:hover{
+    text-decoration: underline;
+}
+
+.admin-login-title{
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--WHITE__COLOR);
+
+}
+.admin-login-form-wrapper form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  margin-block: 3rem;
+}
+
+.admin-login-form-wrapper form .input-div input {
+  width: 100%;
+  padding: 0.5rem 0.5rem 1rem 0.5rem;
+  font-size: 20px;
+  border: none;
+  color: var(--WHITE__COLOR);
+  background-color: transparent;
+}
+
+.admin-login-form-wrapper form .input-div input:active,
+.admin-login-form-wrapper form .input-div input:focus {
+  border: none;
+  outline: none;
+}
+
+.admin-login-form-wrapper form .input-div {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  border-radius: 8px;
+  border: 1.5px solid var(--MAIN__ACCENT__COLOR);
+  padding: 0 1rem;
+  background-color: var(--MAIN__BG__COLOR);
+  color: var(--WHITE__COLOR);
+  transition: all ease 300ms;
+}
+.admin-login-form-wrapper form .input-div legend {
+  padding: 0 0.5rem;
+  text-transform: uppercase;
+  color: var(--MAIN__ACCENT__COLOR);
+}
+
+.admin-login-form-wrapper form input[type="submit"] {
+  width: max-content;
+  color: var(--WHITE__COLOR);
+  border: 1px solid var(--SUCCESS__COLOR);
+  transition: all 0.3s ease-in-out;
+  outline: none;
+  margin-top: 1rem;
+  background-color: transparent;
+}
+
+.admin-login-form-wrapper form input[type="submit"]:hover {
+  background-color: var(--SUCCESS__COLOR);
+}
+
+.admin-login-response {
+  width: 100%;
+  font-size: larger;
+  margin-block: 1rem;
+  text-align: start;
+}
+
+@media (max-width: 768px) {
+  .admin-login-form-wrapper {
+    width: 90vw;
+  }
+}
+
+
