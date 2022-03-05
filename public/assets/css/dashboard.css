@@ -91,16 +91,19 @@
 .scheme-list-wrapper .scheme-list .scheme-list-item{
     position: relative;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
     padding-block: 1rem;
     color: var(--WHITE__COLOR);
     border-bottom: 1px solid var(--WHITE__COLOR);
+    transition: all 0.3s ease-in-out;
 }
 .scheme-list-wrapper .scheme-list .scheme-list-item:last-child{
     border-bottom: none;
 }
-.scheme-list-wrapper .scheme-list .scheme-list-item .scheme-title{
+.scheme-list-wrapper .scheme-list .scheme-list-item .scheme-title,
+.scheme-list-wrapper .scheme-list .scheme-list-item .scheme-body{
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -108,9 +111,23 @@
     flex-wrap: wrap;
     padding-inline: 0.5rem;
 }
+.scheme-list-wrapper .scheme-list .scheme-list-item .scheme-body{
+    /* background-color: rgb(51, 51, 51, 0.5); */
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    justify-content: flex-start;
+    transition: all 0.3s ease;
+}
+.scheme-list-wrapper .scheme-list .scheme-list-item.expanded .scheme-body{
+    height: auto;
+    visibility: visible;
+    padding-block: 0.5rem;
+    transition: all 0.3s ease;
+}
 .scheme-list-wrapper .scheme-list .scheme-list-item .scheme-title .alias{
     color: var(--MAIN__ACCENT__COLOR);
-    font-size: larger;
+    font-size: 20px;
     font-weight: bold;
 }
 .scheme-list-wrapper .scheme-list .scheme-list-item .scheme-title .alias small{
@@ -121,10 +138,69 @@
     color: var(--WHITE__COLOR);
     font-size: smaller;
     font-weight: lighter;
-    opacity: 0.5;
+    /* opacity: 0.5; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-
-.scheme-list-wrapper .scheme-list .scheme-list-item:hover{
+@media (max-width: 568px){
+    .scheme-list-wrapper .scheme-list .scheme-list-item .scheme-title .name{
+        width: 100%;
+        margin-bottom: 0.25rem;
+    }
+}
+.scheme-list-wrapper .scheme-list .scheme-list-item.expanded{
     background-color: #222222;
+    outline: 1px solid var(--WHITE__COLOR);
 }
 
+.scheme-toggle-btn{
+    transition: all 300ms ease;
+}
+.scheme-toggle-btn > span{
+    display: block;
+    pointer-events: none !important;
+    transition: all 300ms ease;   
+}
+.scheme-toggle-btn.open{
+    background-color: var(--SUCCESS__COLOR);
+    border-color: var(--SUCCESS__COLOR);
+    transition: all 300ms ease;   
+}
+.scheme-toggle-btn.open > span{
+    transform: rotate(180deg);
+}
+
+.scheme-obj-ui{
+    width: 100%;
+    border: 1px solid var(--SECONDARY__GREY__COLOR);
+    padding: 0.25rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.scheme-obj-ui:last-child{
+    margin-bottom: 0;
+}
+
+.obj-title{
+    width: 95%;
+    position: relative;
+    display: block;
+    color: var(--WHITE__COLOR);
+    text-align: start;
+    margin-block: 0.75rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--SECONDARY__GREY__COLOR);
+}
+
+.obj-body{
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  place-items: center;
+  grid-gap: 10px;
+  margin-block: 0.75rem;
+}
