@@ -1,6 +1,6 @@
 const { encode, decode } = require("../middlewares/encode-decode");
 // const schemeCollection = require("../codeSchemes/schemeSelection");
-const fetchSchemes = require("../codeSchemes/schemeSelection");
+const fetchSchemes = require("../utils/fetchSchemes");
 
 const encoder = async (req, res) => {
   let { str } = req.body;
