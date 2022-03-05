@@ -8,8 +8,8 @@ const adminCheck = (req, res, next) => {
     next();
   } else {
     res.status(401).json({
-      status: 401,
-      error: "Unauthorized - Admin access only",
+      error: true,
+      msg: "Unauthorized - Admin access only",
     });
   }
 };
