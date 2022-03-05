@@ -19,10 +19,10 @@ const adminCheck = require("./middlewares/adminCheck");
 //routers
 const cipherRouter = require("./routes/cipher");
 const schemeRouter = require("./routes/scheme");
+const navigationRouter = require("./routes/navigation");
 
 app.set("trust proxy", 1);
-app.use(
-  rateLimiter({
+app.use(rateLimiter({
     windowMs: 15 * 60 * 1000,
     max: 250,
   })
@@ -46,29 +46,12 @@ app.use(helmet());
 app.use(cors());
 app.use(xss());
 
-//base routes
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/index.html");
-});
-app.get("/dash", (req, res) => {
-  const { adminSecret } = req.session;
-  if(!adminSecret) {
-    return res.redirect("/login");
-  }
-  res.sendFile(__dirname + "/public/pages/dashboard.html");
-});
-app.get("/login", (req, res) => {
-  res.sendFile(__dirname + "/public/pages/login.html");
-});
-app.get("/github/repo", (req, res) => {
-  res.redirect("https://github.com/SyedAli310/cipher-bay-api");
-});
-
-//routes
+// routers
+app.use("/", navigationRouter);
 app.use("/api/v1/cipher", auth, cipherRouter);
 app.use("/api/v1/scheme", auth, adminCheck, schemeRouter);
 
-// Handling non matching request from the client
+// Handling non existing requests from the client
 app.use((req, res, next) => {
   res.status(404).sendFile(__dirname + "/public/404.html");
 });
