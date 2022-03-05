@@ -1,4 +1,7 @@
 const Scheme = require("../models/Scheme");
+const makeSchemes = require("../utils/schemeProcess");
+const generateKey = require("../utils/generateKey");
+const validateScheme = require("../utils/schemeValidate");
 
 const viewSchemes = async (req, res) => {
     const { id } = req.params;
@@ -25,30 +28,71 @@ const viewSchemes = async (req, res) => {
 }
 
 const addScheme = async (req, res) => {
-    const { name, alias, encode, decode } = req.body;
+    const { alias, scheme } = req.body;
     try {
-        const scheme = await Scheme.create({
-            name,
-            alias,
-            encode,
-            decode,
-        });
-        if(!scheme) {
-            return res.status(404).json({
+        if(!scheme || !alias) {
+            return res.status(400).json({
                 error: true,
-                msg: "Could not add the scheme to the database"
+                msg: "please provide all the required fields"
+            });
+        }
+        const processed_alias = alias.trim().replace(/\s/g, "").toLowerCase();
+        if(processed_alias.length < 3 || processed_alias.length > 18) {
+            return res.status(400).json({
+                error: true,
+                msg: "alias must be between 3 and 18 characters"
+            });
+        }
+        // check if alias or scheme already exists
+        const alias_exists = await Scheme.findOne({ alias:processed_alias });
+        if(alias_exists) {
+            return res.status(400).json({
+                error: true,
+                msg: `scheme with alias '${processed_alias}' already exists, please choose another alias`
+            });
+        }
+      
+        const isValid = await validateScheme(scheme);
+        if(isValid !== 'validated') {
+            return res.status(400).json({
+                error: true,
+                msg: isValid
+            });
+        }
+        const { encode_processed, decode_processed } = await makeSchemes(scheme);
+        if(!encode_processed || !decode_processed) {
+            return res.status(400).json({
+                error: true,
+                msg: "error processing scheme, please check the scheme and try again"
+            });
+        }
+        const scheme_exists = await Scheme.findOne({ encode:scheme });
+        if(scheme_exists) {
+            return res.status(400).json({
+                error: true,
+                msg: `a similar scheme already exists, please choose different scheme values`
+            });
+        }
+        const newScheme = {name:`scheme_${generateKey(10, true, 6)}`, alias:processed_alias, encode:encode_processed, decode: decode_processed};
+        // add the scheme to the database
+        const scheme_added = await Scheme.create(newScheme);
+        if(!scheme_added) {
+            return res.status(500).json({
+                error: true,
+                msg: "error adding scheme to the database"
             });
         }
         res.status(201).json({
             error: false,
-            msg: "Scheme added successfully",
-            scheme: scheme
+            msg: "scheme added successfully",
+            scheme: scheme_added
         });
-    } catch (error) {
+    }
+    catch (error) {
         res.status(500).json({
             error: true,
             msg: error.message
-        });
+        })
     }
 }
 
