@@ -4,6 +4,7 @@ const cors = require("cors");
 const xss = require("xss-clean");
 const rateLimiter = require("express-rate-limit");
 const session = require('express-session');
+const MongoStore = require("connect-mongo");
 
 // initialize express app
 const express = require("express");
@@ -34,6 +35,10 @@ app.use(session({
   secret: process.env.SESS_SECRET,
   resave: false,
   saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI,
+    autoRemove: "disabled"
+  }),
   cookie: {
     maxAge: 1000 * 60 * 60,
     sameSite: true,
