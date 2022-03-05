@@ -18,7 +18,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 2.5rem;
+    margin-block: 2.5rem;
     flex-wrap: wrap;
     gap: 1rem;
 }
@@ -71,29 +71,6 @@
     color: var(--MAIN__ACCENT__COLOR);
 }
 
-
-
-.admin-login-note{
-    font-size: smaller;
-    margin-block: 1.5rem;
-}
-.admin-login-note .note-title{
-    margin-bottom: 1rem;
-}
-
-.admin-login-note .note-list{
-    margin-bottom: 1rem;
-    list-style: circle;
-    padding-inline-start: 1rem;
-}
-.admin-login-note .note-list li{
-    margin-bottom: 0.5rem;
-}
-.admin-login-note .note-list a{
-    color: var(--MAIN__ACCENT__COLOR);
-}
-
-
 .scheme-list-wrapper{
     /* outline: 1px solid var(--MAIN__ACCENT__COLOR); */
     margin-block: 1rem;
@@ -102,6 +79,13 @@
 .scheme-list-wrapper .scheme-list{
     list-style: none;
     padding-block: 0.5rem;
+}
+.scheme-list-wrapper .scheme-list-title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .scheme-list-wrapper .scheme-list .scheme-list-item{
@@ -129,12 +113,17 @@
     font-size: larger;
     font-weight: bold;
 }
+.scheme-list-wrapper .scheme-list .scheme-list-item .scheme-title .alias small{
+    color: grey ;
+    font-size: small;
+}
 .scheme-list-wrapper .scheme-list .scheme-list-item .scheme-title .name{
     color: var(--WHITE__COLOR);
     font-size: smaller;
     font-weight: lighter;
     opacity: 0.5;
 }
+
 .scheme-list-wrapper .scheme-list .scheme-list-item:hover{
     background-color: #222222;
 }
