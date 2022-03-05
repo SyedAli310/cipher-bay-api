@@ -1,3 +1,19 @@
+.login-btn{
+    background-color: var(--SUCCESS__COLOR) !important;
+    border: 1px solid var(--SUCCESS__COLOR) !important;
+    color: var(--WHITE__COLOR) !important;
+}
+.login-btn:hover,
+.login-btn:focus,
+.logout-btn:hover,
+.logout-btn:focus{
+    border: 1px solid var(--WHITE__COLOR) !important;
+}
+.logout-btn{
+    background-color: var(--ERROR__COLOR) !important;
+    border: 1px solid var(--ERROR__COLOR) !important;
+    color: var(--WHITE__COLOR) !important;
+}
 .dash-header{
     display: flex;
     justify-content: space-between;

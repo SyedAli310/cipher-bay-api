@@ -1,9 +1,8 @@
 const resMsg = document.querySelector("#login-response");
 
-
 const schemeList = document.querySelector("#scheme-list");
 const dynamicSchemeCount = document.querySelector("#dyn-scheme-list-title");
-
+const dashHeaderBtnWrap = document.querySelector("#dash-btn-wrapper");
 const API_KEY = "nRwgKaP8GVzSybkzriiTCxRuQaRJ59kj";
 
 
@@ -40,11 +39,13 @@ const showDashboard = async () => {
   console.log(schemes);
   if(schemes.error) {
     // showPrompt();
+    dashHeaderBtnWrap.innerHTML = ` <a class="btn login-btn a-reset" href="/login">Login</a>`;
     resMsg.classList.add("show");
     resMsg.innerHTML = `${schemes.error} <br> <small class='error'>To get access to the dashboard, please login</small>`; 
     return;
   }
   resMsg.classList.remove("show");
+  dashHeaderBtnWrap.innerHTML = ` <a class="btn logout-btn a-reset" href="/logout">Logout</a>`;
   const allSchemes = schemes.scheme;
   const schemesCount = schemes.schemes_count;
   dynamicSchemeCount.innerText = `Total Schemes Added - ${schemesCount}`;
