@@ -209,6 +209,10 @@ body::-webkit-scrollbar-thumb:hover {
   padding: 0.125rem 0.5rem;
   font-size: smaller;
 }
+.btn.btn-md{
+  padding: 0.25rem 0.725rem;
+  font-size: medium;
+}
 .btn:hover {
   border: 1px solid var(--WHITE__COLOR);
 }
