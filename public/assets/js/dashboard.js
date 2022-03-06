@@ -99,9 +99,11 @@ const showDashboard = async () => {
   const schemes = await getSchemes();
   console.log(schemes);
   if(schemes.error) {
+    schemeList.innerHTML = "";
+    dynamicSchemeTitle.innerHTML = "";
     dashHeaderBtnWrap.innerHTML = ` <a class="btn login-btn a-reset" href="/login">Login</a>`;
     resMsg.classList.add("show");
-    resMsg.innerHTML = `${schemes.error} <br> <small class='error'>To get access to the dashboard, please login</small>`; 
+    resMsg.innerHTML = `${schemes.msg} <br> <small class='error'>To get access to the dashboard, please login</small>`; 
     return;
   }
   schemeList.innerHTML = "";
