@@ -17,69 +17,277 @@
           <h1><a href="./dash">Dashboard</a></h1>
           <a href="/" class="go-home a-reset"> &#8592; Go Home</a>
         </div>
-        <div class="dash-btn-wrapper" id="dash-btn-wrapper">
-         
-        </div>
+        <div class="dash-btn-wrapper" id="dash-btn-wrapper"></div>
       </div>
-      <p class="login-response" id="login-response" title="Only-Admin Access"></p>
+
+      <p
+        class="login-response"
+        id="login-response"
+        title="Only-Admin Access"
+      ></p>
+      <fieldset class="input-div">
+        <legend>Search scheme</legend>
+        <input class="form-control" type="search" name="search-scheme" id="search-scheme" placeholder="enter query..">
+      </fieldset>
       <div class="scheme-list-wrapper">
-        <h2 class="scheme-list-title" id="dyn-scheme-list-title" style="margin-block: 1rem; color: var(--WHITE__COLOR);"></h2>
-        <ul id="scheme-list" class="scheme-list">
-        </ul>
+        <h2
+          class="scheme-list-title"
+          id="dyn-scheme-list-title"
+          style="margin-block: 1rem; color: var(--WHITE__COLOR)"
+        ></h2>
+        <ul id="scheme-list" class="scheme-list"></ul>
       </div>
     </div>
 
-    <div class="modal admin-login-modal">
+    <div class="modal add-scheme-modal">
       <div class="modal-content">
         <button class="modal-close-btn" style="font-size: xx-large">
           &times;
         </button>
         <div class="modal-header">
-          <h2>Verify Admin Login</h2>
+          <h2>Add new scheme</h2>
         </div>
         <div class="modal-body">
-          <div class="admin-login-response" data-login-response></div>
+          <div class="add-scheme-response" data-add-response></div>
 
-          <form id="admin-login-form">
-            <fieldset class="input-div">
-              <legend id="dyn-legend-method">Enter admin secret</legend>
-              <input
-                type="text"
-                id="admin-secret-inp"
-                name="admin-secret-inp"
-                placeholder="enter token here..."
-                autocomplete="off"
-                required
-              />
-            </fieldset>
-            <input class="btn" type="submit" value="Verify" />
+          <form id="add-scheme-form" class="add-scheme-form">
+            <div class="form-group">
+              <fieldset class="input-div">
+                <legend>Scheme Alias</legend>
+                <input
+                  type="text"
+                  name="scheme-alias"
+                  id="scheme-alias"
+                  class="form-control"
+                  placeholder="enter an alias.. (18 chars max)"
+                />
+              </fieldset>
+            </div>
+            <div class="form-group scheme-inp-form-group">
+              <fieldset class="input-div scheme-input-div">
+                <legend>a</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="a"
+                />
+              </fieldset>
+
+              <fieldset class="input-div scheme-input-div">
+                <legend>b</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="b"
+                />
+              </fieldset>
+
+              <fieldset class="input-div scheme-input-div">
+                <legend>c</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="c"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>d</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="d"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>e</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="e"
+                />
+              </fieldset>
+
+              <fieldset class="input-div scheme-input-div">
+                <legend>f</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="f"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>g</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="g"
+                />
+              </fieldset>
+
+              <fieldset class="input-div scheme-input-div">
+                <legend>h</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="h"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>i</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="i"
+                />
+              </fieldset>
+
+              <fieldset class="input-div scheme-input-div">
+                <legend>j</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="j"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>k</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="k"
+                />
+              </fieldset>
+
+              <fieldset class="input-div scheme-input-div">
+                <legend>l</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="l"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>m</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="m"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>n</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="n"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>o</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="o"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>p</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="p"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>q</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="q"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>r</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="r"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>s</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="s"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>t</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="t"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>u</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="u"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>v</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="v"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>w</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="w"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>x</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="x"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>y</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="y"
+                />
+              </fieldset>
+              <fieldset class="input-div scheme-input-div">
+                <legend>z</legend>
+                <input
+                  type="text"
+                  class="form-control scheme-input"
+                  data-letter="z"
+                />
+              </fieldset>
+            </div>
+            <button
+              class="btn add-scheme-form-submit-btn"
+              type="submit"
+            >add scheme</button>
           </form>
-          <br><hr>
-          <div class="admin-login-note">
-            <h4 class="note-title">Note:</h4>
-            <ul class="note-list">
-              <li>
-                You can only get access to schemes dashboard if you're the owner
-                of <a href="/">Cipher Bay</a> or you have admin rights.
-              </li>
-              <li>
-                Admin rights can only be given through the owner/devs by
-                generating a admin secret.
-              </li>
-              <li>
-                If you belive you should have access to schemes dashboard, send
-                us your application/request here
-                <a
-                  href="mailto:alizaidi310@gmail.com?subject=Access to Cipher Bay schemes dashboard."
-                  >here</a
-                >
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>
-    
+
     <script src="../assets/js/dashboard.js"></script>
   </body>
 </html>

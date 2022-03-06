@@ -5,6 +5,22 @@ const dynamicSchemeTitle = document.querySelector("#dyn-scheme-list-title");
 const dashHeaderBtnWrap = document.querySelector("#dash-btn-wrapper");
 const API_KEY = "nRwgKaP8GVzSybkzriiTCxRuQaRJ59kj";
 
+const modalCloseBtns = document.querySelectorAll(".modal-close-btn");
+
+const searchSchemeInp = document.querySelector("#search-scheme");
+
+const addSchemeModal = document.querySelector(".add-scheme-modal");
+const addSchemeForm = document.querySelector("#add-scheme-form");
+const allAddSchemeFields = document.querySelectorAll('#add-scheme-form .form-control');
+
+const spinner = (text) => {
+  return `<div id='spinner'>
+                <span>${text ? text : "Loading"}</span>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>`;
+};
 
 const fetchCipherData__API = async (method, url, body) => {
   try {
@@ -94,6 +110,44 @@ const makeObjUI = (obj, title) => {
   return UI;
 }
 
+const validateAddSchemeFields = (allFields) => {
+  allFields.forEach((field) => {
+    if(field.value.trim() === "" || isNaN(Number(field.value))) {
+      field.parentElement.classList.add("is-invalid");
+      return;
+    } else {
+      field.parentElement.classList.remove("is-invalid");
+    }
+  })
+}
+
+modalCloseBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const parentModal = btn.parentElement.parentElement;
+    parentModal.classList.remove("open");
+  })
+})
+
+addSchemeForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const schemeAliasInp = document.querySelector("#scheme-alias").value;
+  console.log(schemeAliasInp);
+})
+
+searchSchemeInp.addEventListener("input", (e) => {
+  const searchVal = e.target.value;
+  const schemeListItems = schemeList.querySelectorAll(".scheme-list-item");
+  schemeListItems.forEach((item) => {
+    const schemeTitle = item.querySelector(".scheme-title .alias");
+    if(schemeTitle.innerHTML.toLowerCase().includes(searchVal.toLowerCase())) {
+      item.style.display = "block";
+    } else {
+      item.style.display = "none";
+    }
+  });
+})
+
+
 const showDashboard = async () => {
   schemeList.innerHTML = "<span style='color:var(--MAIN__ACCENT__COLOR);'>loading...</span>";
   const schemes = await getSchemes();
@@ -114,21 +168,24 @@ const showDashboard = async () => {
   dynamicSchemeTitle.innerHTML = `
   <div>Schemes added-${schemesCount} </div>
   <div class='scheme-cta-btns'>
-    <button class='btn btn-sm' id='refresh-schemes' title='refresh schemes'>&#x21bb;</button>
-    <button class='btn btn-sm' id='expand-all' title='expand all'>expand &#9660;</button>
-    <button class='btn btn-sm' id='close-all' title='close all'>shrink  &#9650;</button>
+    <button class='btn btn-sm' id='add-scheme' title='add scheme'><img class='icon add' src="/assets/img/icons/add-outline.svg" /></button>
+    <button class='btn btn-sm' id='refresh-schemes' title='refresh schemes'><img class='icon' src="/assets/img/icons/refresh-outline.svg" /></button>
+    <button class='btn btn-sm' id='expand-all' title='expand all'> <img class='icon' src="/assets/img/icons/caret-down-outline.svg" /></button>
+    <button class='btn btn-sm' id='close-all' title='close all'> <img class='icon' src="/assets/img/icons/caret-up-outline.svg" /></button>
   </div>
   `;
   document.querySelector("#refresh-schemes").addEventListener("click", () => {showDashboard()});
+  document.querySelector("#add-scheme").addEventListener("click", () => {addSchemeModal.classList.add("open")});
   document.querySelector("#expand-all").addEventListener("click", () => {toggleAllSchemes('open')});
   document.querySelector("#close-all").addEventListener("click", () => {toggleAllSchemes('close')});
   allSchemes.forEach((scheme) => {
     const schemeLi = document.createElement("li");
     schemeLi.classList.add('scheme-list-item');
+    schemeLi.dataset.schemeAlias = scheme.alias;
     schemeLi.innerHTML = `
     <div class="scheme-title">
       <span class="alias">${scheme.alias}</span>
-      <span class="name">${scheme.name} &nbsp; <button class='btn btn-md scheme-toggle-btn' data-scheme-toggle><span>&#9660;</span></button></span>
+      <span class="name">${scheme.name} &nbsp; <button class='btn btn-md scheme-toggle-btn' data-scheme-toggle><img class='icon' src="/assets/img/icons/caret-down-outline.svg" /></button></span>
     </div>
     `;
     const schemeBody = document.createElement("div");
@@ -138,8 +195,8 @@ const showDashboard = async () => {
     schemeBodyHeader.innerHTML = `
     <small>🕑 Added: ${new Date(scheme.createdAt).toDateString().slice(3)}</small>
     <div class='scheme-body-btns'>
-      <button class='btn btn-sm' id='delete-scheme' title='delete scheme'><img src="/assets/img/icons/trash-outline.svg" alt="del" /></button>
-      <button class='btn btn-sm' id='download-scheme' title='download scheme'><img src="/assets/img/icons/cloud-download-outline.svg" alt="save" /></button>
+      <button class='btn btn-sm' id='delete-scheme' title='delete scheme'><img class='icon' src="/assets/img/icons/trash-outline.svg" alt="del" /></button>
+      <button class='btn btn-sm' id='download-scheme' title='download scheme'><img class='icon' src="/assets/img/icons/cloud-download-outline.svg" alt="save" /></button>
     </div>
     `;
     schemeBody.appendChild(schemeBodyHeader);

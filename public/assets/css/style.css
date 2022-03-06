@@ -219,6 +219,10 @@ body::-webkit-scrollbar-thumb:hover {
 .btn:active{
   transform: translateY(2.5px);
 }
+.btn:disabled{
+  pointer-events: none;
+  opacity: 0.5 ;
+}
 
 /* modal styles start  */
 .modal {
