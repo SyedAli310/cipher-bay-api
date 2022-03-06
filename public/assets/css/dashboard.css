@@ -125,6 +125,24 @@
     padding-block: 0.5rem;
     transition: all 0.3s ease;
 }
+.scheme-list-wrapper .scheme-list .scheme-list-item.expanded .scheme-body .scheme-body-header{
+    width: 100%;
+    margin-block: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.scheme-list-wrapper .scheme-list .scheme-list-item.expanded .scheme-body .scheme-body-btns button {
+    background-color: transparent !important;
+    padding-block: 0.25rem !important;
+}
+.scheme-list-wrapper .scheme-list .scheme-list-item.expanded .scheme-body .scheme-body-btns button img{
+    display: block;
+    width: 18px;
+    height: auto;
+}
 .scheme-list-wrapper .scheme-list .scheme-list-item .scheme-title .alias{
     color: var(--MAIN__ACCENT__COLOR);
     font-size: 20px;
@@ -138,15 +156,16 @@
     color: var(--WHITE__COLOR);
     font-size: smaller;
     font-weight: lighter;
-    /* opacity: 0.5; */
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 0.25rem;
 }
 @media (max-width: 568px){
     .scheme-list-wrapper .scheme-list .scheme-list-item .scheme-title .name{
         width: 100%;
         margin-bottom: 0.25rem;
+        align-items: flex-end;
     }
 }
 .scheme-list-wrapper .scheme-list .scheme-list-item.expanded{
@@ -186,21 +205,44 @@
 }
 
 .obj-title{
-    width: 95%;
+    width: 98%;
     position: relative;
     display: block;
     color: var(--WHITE__COLOR);
     text-align: start;
+    font-weight: 300;
     margin-block: 0.75rem;
     padding-bottom: 0.25rem;
     border-bottom: 1px solid var(--SECONDARY__GREY__COLOR);
 }
 
 .obj-body{
-  width: 100%;
+  width: 98%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   place-items: center;
   grid-gap: 10px;
   margin-block: 0.75rem;
+}
+.obj-body .obj-item{
+    width: 100%;
+    text-transform: uppercase;
+    font-weight: bold;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--MAIN__ACCENT__COLOR);
+}
+.obj-body .obj-item span:nth-child(2){
+    color: var(--WHITE__COLOR);
+    font-weight: lighter;
+}
+
+.scheme-cta-btns{
+    height: max-content;
+}
+
+.scheme-cta-btns button{
+    height: 100%;
 }
