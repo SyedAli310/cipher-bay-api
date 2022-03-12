@@ -1,9 +1,9 @@
 // const BASE_URL = 'https://cipher-bay.herokuapp.com/api/v1/cipher/';
 // const BASE_URL = "http://localhost:5000/api/v1/cipher";
-const BASE_URL  = '/api/v1/cipher';
+const BASE_URL = "/api/v1/cipher";
 const API_KEY = "nRwgKaP8GVzSybkzriiTCxRuQaRJ59kj";
 let METHOD = "encode";
-let SCHEME = localStorage.getItem('scheme') || "scheme_zevqnm-wavv";
+let SCHEME = localStorage.getItem("scheme") || "scheme_zevqnm-wavv";
 
 let URL_GLOBAL;
 let BODY = {};
@@ -35,7 +35,7 @@ const fetchCipherData__API = async (method, url, body) => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        "apiKey" : API_KEY
+        apiKey: API_KEY,
       },
       body: body ? JSON.stringify(body) : null,
     });
@@ -58,14 +58,19 @@ const schemeSelect__EventBinder = () => {
     SCHEME = localStorage.getItem("scheme");
     $("#dyn-inp-div-scheme").text(` / ${e.target.innerText}`);
     $("#dyn-selected-scheme").text(`${e.target.innerText}`);
-    print(`Scheme set to -> ${SCHEME_ALIAS_OBJ.find((scheme) => scheme.name === SCHEME).alias}`);
+    print(
+      `Scheme set to -> ${
+        SCHEME_ALIAS_OBJ.find((scheme) => scheme.name === SCHEME).alias
+      }`
+    );
   });
 };
 
 const showErrorPrompt = (head, body) => {
   // fill dynamic content
-  if(!head){ $(".error-modal .modal-header").css("display", "none"); }
-  else{ 
+  if (!head) {
+    $(".error-modal .modal-header").css("display", "none");
+  } else {
     $(".error-modal .modal-header").css("display", "block");
     $(".error-modal #dyn-error-header").text(`${head}`);
   }
@@ -79,12 +84,10 @@ const showErrorPrompt = (head, body) => {
 };
 
 const getSchemesFromAPI = async () => {
-  const schemes = await fetchCipherData__API('GET',
-    `${BASE_URL}/schemes`
-  );
+  const schemes = await fetchCipherData__API("GET", `${BASE_URL}/schemes`);
   //print(schemes);
   return schemes;
-}
+};
 
 const fillSchemesToModal = async () => {
   const schemeSelectDiv = $(".schemes-modal #scheme-select-btns");
@@ -143,10 +146,16 @@ const fillSuccessResponse = (scheme, inpHead, inpBody, outHead, outBody) => {
 
 const fillErrorResponse = (error) => {
   $("#output").css("border", "1.5px solid var(--ERROR__COLOR)");
-  $("#dyn-legend-scheme").html(`/ <span style='color:var(--ERROR__COLOR);'>ERROR</span>`);
-  $("#text-out-head").html(`<span style='color:var(--ERROR__COLOR);'>Oops!</span>`);
+  $("#dyn-legend-scheme").html(
+    `/ <span style='color:var(--ERROR__COLOR);'>ERROR</span>`
+  );
+  $("#text-out-head").html(
+    `<span style='color:var(--ERROR__COLOR);'>Oops!</span>`
+  );
   $("#text-out-body").html(`
-        <p style='color:var(--ERROR__COLOR);'>${error[0].toUpperCase() + error.slice(1)}</p>
+        <p style='color:var(--ERROR__COLOR);'>${
+          error[0].toUpperCase() + error.slice(1)
+        }</p>
     `);
 };
 
@@ -211,7 +220,9 @@ $(".conversion-select-btn").on("click", (e) => {
   }
   $("#main-form .input-div  input").attr(
     "placeholder",
-    `enter ${METHOD == 'encode' ? 'text' : METHOD == 'decode' ? 'code' : 'something' } to ${METHOD}`
+    `enter ${
+      METHOD == "encode" ? "text" : METHOD == "decode" ? "code" : "something"
+    } to ${METHOD}`
   );
   $("#main-form .input-div  input").val("");
   print(`Method set to -> ${METHOD}`);
@@ -242,7 +253,7 @@ $("#main-form").on("submit", async (e) => {
       // &code=${text};
       BODY = {
         code: text,
-      }
+      };
       break;
     default:
       showErrorPrompt(
@@ -253,7 +264,7 @@ $("#main-form").on("submit", async (e) => {
   }
   $("#text-inp-body").text(`${text}`);
   $("#text-out-body").html(spinner("Converting"));
-  const data = await fetchCipherData__API('POST',URL_GLOBAL, BODY);
+  const data = await fetchCipherData__API("POST", URL_GLOBAL, BODY);
   //print(data);
   print(`${method.slice(0, -1) + "ing"} -> ${text}`);
   if (!data || data === "Failed to fetch") {
@@ -269,10 +280,12 @@ $("#main-form").on("submit", async (e) => {
     return;
   }
   if (!data.error) {
-    if(!SCHEME_ALIAS_OBJ || SCHEME_ALIAS_OBJ.length === 0){
-      await fillSchemesToModal()
+    if (!SCHEME_ALIAS_OBJ || SCHEME_ALIAS_OBJ.length === 0) {
+      await fillSchemesToModal();
     }
-    let scheme__dynamic = SCHEME_ALIAS_OBJ.find( (scheme) => scheme.name === data.schemeUsed).alias;
+    let scheme__dynamic = SCHEME_ALIAS_OBJ.find(
+      (scheme) => scheme.name === data.schemeUsed
+    ).alias;
     let inpHead__dynamic = data.encoded
       ? "Text"
       : data.decoded
@@ -331,10 +344,10 @@ $(".schemes-modal .modal-close-btn").on("click", (e) => {
 
 // select input on keypress t
 $(document).on("keypress", (e) => {
-  if (e.key === 't' && !$("#input-text").is(":focus")) {
+  if (e.key === "t" && !$("#input-text").is(":focus")) {
     $("#input-text").focus();
-    setTimeout(()=>{
+    setTimeout(() => {
       $("#input-text").val("");
-    },1)
+    }, 1);
   }
 });
