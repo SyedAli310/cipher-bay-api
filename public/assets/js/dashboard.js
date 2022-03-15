@@ -143,8 +143,19 @@ addSchemeForm.addEventListener("submit", async (e) => {
   };
   console.log(payload); // [TODO] this payload will be sent to the server (API call)
   // make API call to add scheme
-  const res = await fetchCipherData__API("POST", "/api/v1/scheme/add", payload);
-  console.log(res);
+  try {
+    const res = await fetchCipherData__API(
+      "POST",
+      "/api/v1/scheme/add",
+      payload
+    );
+    console.log(res);
+    if (res.error) {
+      alert(res.msg);
+    }
+  } catch (error) {
+    alert(error.message);
+  }
 });
 
 searchSchemeInp.addEventListener("input", (e) => {
