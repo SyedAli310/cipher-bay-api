@@ -1,7 +1,6 @@
 const Scheme = require("../models/Scheme");
-const makeSchemes = require("../utils/schemeProcess");
+const { processScheme } = require("../utils/schemeProcess");
 const generateKey = require("../utils/generateKey");
-const validateScheme = require("../utils/schemeValidate");
 
 const viewSchemes = async (req, res) => {
   const { id } = req.params;
@@ -51,32 +50,26 @@ const addScheme = async (req, res) => {
       });
     }
 
-    const isValid = await validateScheme(scheme);
-    if (isValid !== "validated") {
-      return res.status(400).json({
-        error: true,
-        msg: isValid,
-      });
+    const processResponse = await processScheme(scheme);
+    if (processResponse.error) {
+      return res.status(400).json({ error: true, ...processResponse });
     }
-    const { encode_processed, decode_processed } = await makeSchemes(scheme);
-    if (!encode_processed || !decode_processed) {
-      return res.status(400).json({
-        error: true,
-        msg: "error processing scheme, please check the scheme and try again",
-      });
-    }
-    const scheme_exists = await Scheme.findOne({ encode: encode_processed });
+
+    const { encode_scheme, decode_scheme } = processResponse;
+
+    const scheme_exists = await Scheme.findOne({ encode: encode_scheme });
     if (scheme_exists) {
       return res.status(400).json({
         error: true,
         msg: `a similar scheme already exists, please choose different scheme values`,
       });
     }
+
     const newScheme = {
       name: `scheme_${generateKey(10, true, 6)}`,
       alias: processed_alias,
-      encode: encode_processed,
-      decode: decode_processed,
+      encode: encode_scheme,
+      decode: decode_scheme,
     };
     // add the scheme to the database
     const scheme_added = await Scheme.create(newScheme);
