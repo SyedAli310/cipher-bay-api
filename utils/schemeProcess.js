@@ -1,22 +1,53 @@
 const reverseObj = require("./reverseObj");
+const validateScheme = require("./schemeValidate");
 
-const makeSchemes = async (scheme) => {
-  if (scheme.constructor !== Object) {
-    return null;
-  }
-  encode_processed = scheme;
+const processScheme = async (scheme) => {
+  let response = {
+    error: false,
+    msg: "",
+  };
+
   // process the scheme types
-  Object.keys(encode_processed).every(
-    (item) => (item = item.toString().toLowerCase())
-  );
-  Object.values(encode_processed).every((item) => (item = Number(item)));
-  // reverse the scheme types
-  decode_processed = reverseObj(scheme);
-  // add spaces to the scheme
-  encode_processed[" "] = " ";
-  decode_processed[" "] = " ";
+  Object.keys(scheme).forEach((key) => {
+    key = key.toString().toLowerCase();
+    scheme[key] = parseInt(scheme[key]);
+  });
+
+  // validate the scheme
+  let validationResponse = await validateScheme(scheme);
+
+  if (validationResponse.error) {
+    response = { ...response, ...validationResponse };
+    return response;
+  }
+
+  // construct the schemes
+  const { encode_scheme, decode_scheme } = await constructSchemes(scheme);
+  if (!encode_scheme || !decode_scheme) {
+    response.error = true;
+    response.msg = "there was an error processing the scheme, please try again";
+    return response;
+  }
   // return the processed schemes
-  return { encode_processed, decode_processed };
+  response.error = false;
+  response.msg = "schemes processed and validated successfully";
+  response.encode_scheme = encode_scheme;
+  response.decode_scheme = decode_scheme;
+  console.log(response);
+  return response;
 };
 
-module.exports = makeSchemes;
+const constructSchemes = async (processed_scheme) => {
+  // reverse the scheme types
+  encode_scheme = processed_scheme;
+  decode_scheme = reverseObj(processed_scheme);
+  // add spaces to the scheme
+  encode_scheme[" "] = " ";
+  decode_scheme[" "] = " ";
+  // return the processed schemes
+  return { encode_scheme, decode_scheme };
+};
+
+module.exports = {
+  processScheme,
+};
