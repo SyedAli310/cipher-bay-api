@@ -11,6 +11,7 @@ const searchSchemeInp = document.querySelector("#search-scheme");
 
 const addSchemeModal = document.querySelector(".add-scheme-modal");
 const addSchemeForm = document.querySelector("#add-scheme-form");
+const addSchemeResponse = document.querySelector("[data-add-response]");
 const allAddSchemeFields = document.querySelectorAll(
   "#add-scheme-form .form-control"
 );
@@ -135,7 +136,7 @@ addSchemeForm.addEventListener("submit", async (e) => {
     "#add-scheme-form .scheme-input"
   );
   allSchemeInps.forEach((inp) => {
-    schemeObjInp[inp.dataset.letter] = inp.value.trim();
+    schemeObjInp[inp.dataset.letter] = inp.value;
   });
   const payload = {
     alias: schemeAliasInp,
@@ -144,6 +145,7 @@ addSchemeForm.addEventListener("submit", async (e) => {
   console.log(payload); // [TODO] this payload will be sent to the server (API call)
   // make API call to add scheme
   try {
+    addSchemeResponse.innerHTML = spinner("Adding scheme...");
     const res = await fetchCipherData__API(
       "POST",
       "/api/v1/scheme/add",
@@ -151,10 +153,14 @@ addSchemeForm.addEventListener("submit", async (e) => {
     );
     console.log(res);
     if (res.error) {
-      alert(res.msg);
+      addSchemeResponse.innerText = res.msg;
+    } else {
+      addSchemeResponse.classList.add("success");
+      addSchemeResponse.innerText = res.msg;
+      addSchemeForm.reset();
     }
   } catch (error) {
-    alert(error.message);
+    addSchemeResponse.innerText = error.message;
   }
 });
 
