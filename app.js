@@ -78,23 +78,36 @@ const startServer = async () => {
   try {
     const mongoConn = await connectDB(process.env.MONGO_URI);
     app.listen(PORT, () => {
-      console.log(
-        // the detailed(colored) log
-        `________________________________________________________` + "\n\n",
-        logColor.blueBright.bold(`Server Live on machine -> `) +
-          logColor.yellow.bold(require("os").hostname()) +
-          "\n",
-        logColor.blueBright.bold(`Listening requests on port -> `) +
-          logColor.green.bold(PORT) +
-          "\n",
-        logColor.blueBright.bold(`MongoDB Host -> `) +
-          logColor.redBright.bold(mongoConn.connections[0].host) +
-          "\n",
-        logColor.blueBright.bold(`DB Name -> `) +
-          logColor.magentaBright.bold(mongoConn.connections[0].name) +
-          "\n",
-        `_______________________________________________________`
-      );
+      if (process.env.IN_PROD === "true") {
+        console.log(process.env.IN_PROD);
+        console.log(
+          `Server Live on machine -> ${require("os").hostname()}` + "\n",
+          `Listening requests on port -> ${PORT}` + "\n",
+          `MongoDB Host -> ${mongoConn.connections[0].host}` + "\n",
+          `DB Name -> ${mongoConn.connections[0].name}` + "\n"
+        );
+        return;
+      }
+      if (process.env.IN_PROD === "false") {
+        console.log(
+          // the detailed(colored) log
+          `________________________________________________________` + "\n\n",
+          logColor.blueBright.bold(`Server Live on machine -> `) +
+            logColor.yellow.bold(require("os").hostname()) +
+            "\n",
+          logColor.blueBright.bold(`Listening requests on port -> `) +
+            logColor.green.bold(PORT) +
+            "\n",
+          logColor.blueBright.bold(`MongoDB Host -> `) +
+            logColor.redBright.bold(mongoConn.connections[0].host) +
+            "\n",
+          logColor.blueBright.bold(`DB Name -> `) +
+            logColor.magentaBright.bold(mongoConn.connections[0].name) +
+            "\n",
+          `_______________________________________________________`
+        );
+        return;
+      }
     });
   } catch (error) {
     console.log(logColor.red(error));
