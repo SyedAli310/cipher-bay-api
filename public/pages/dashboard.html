@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../assets/css/dashboard.css" />
-    <link rel="stylesheet" href="../assets/css/style.css" />
-    <link rel="icon" href="../assets/img/favicon-1.png" />
+    <link rel="stylesheet" href="/assets/css/dashboard.css" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="icon" href="/assets/img/favicon-1.png" />
     <title>Dash &mdash; cipherbay</title>
   </head>
 
@@ -14,8 +14,8 @@
     <div class="container">
       <div class="dash-header">
         <div class="dash-title">
-          <h1><a href="./dash">Dashboard</a></h1>
-          <a href="/" class="go-home a-reset"> &#8592; Go Home</a>
+          <h1><a href="/panel/dash">Dashboard</a></h1>
+          <a href="/panel" class="go-home a-reset"> &#8592; Go to Panel</a>
         </div>
         <div class="dash-btn-wrapper" id="dash-btn-wrapper"></div>
       </div>
@@ -27,7 +27,13 @@
       ></p>
       <fieldset class="input-div">
         <legend>Search scheme</legend>
-        <input class="form-control" type="search" name="search-scheme" id="search-scheme" placeholder="enter query..">
+        <input
+          class="form-control"
+          type="search"
+          name="search-scheme"
+          id="search-scheme"
+          placeholder="enter query.."
+        />
       </fieldset>
       <div class="scheme-list-wrapper">
         <h2
@@ -279,15 +285,30 @@
                 />
               </fieldset>
             </div>
-            <button
-              class="btn add-scheme-form-submit-btn"
-              type="submit"
-            >add scheme</button>
+            <button class="btn add-scheme-form-submit-btn" type="submit">
+              add scheme
+            </button>
           </form>
         </div>
       </div>
     </div>
 
-    <script src="../assets/js/dashboard.js"></script>
+    <div class="modal delete-scheme-modal prompt">
+      <div class="modal-content">
+        <button class="modal-close-btn" style="font-size: xx-large">
+          &times;
+        </button>
+        <div class="modal-header">
+          <h2>Confirm?</h2>
+        </div>
+        <div class="modal-body">
+          <div class="delete-scheme-response" data-delete-response></div>
+        </div>
+        <div class="modal-footer"></div>
+      </div>
+    </div>
+
+    <script src="/assets/js/app.js"></script>
+    <script src="/assets/js/dashboard.js"></script>
   </body>
 </html>
