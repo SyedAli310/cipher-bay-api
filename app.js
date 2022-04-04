@@ -100,5 +100,4 @@ const startServer = async () => {
     console.log(logColor.red(error));
   }
 };
-
 startServer();
