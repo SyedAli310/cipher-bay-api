@@ -56,8 +56,14 @@ app.use(helmet());
 app.use(cors());
 app.use(xss());
 
+// base route
+app.get("/", (req, res) => {
+  console.log("base route");
+  res.redirect("https://cipherbay.netlify.app");
+});
+
 // routers
-app.use("/", navigationRouter);
+app.use("/panel", navigationRouter);
 app.use("/api/v1/cipher", auth, cipherRouter);
 app.use("/api/v1/scheme", auth, adminCheck, schemeRouter);
 
