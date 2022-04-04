@@ -3,7 +3,7 @@ const helmet = require("helmet");
 const cors = require("cors");
 const xss = require("xss-clean");
 const rateLimiter = require("express-rate-limit");
-const session = require('express-session');
+const session = require("express-session");
 const MongoStore = require("connect-mongo");
 
 // initialize express app
@@ -23,27 +23,30 @@ const schemeRouter = require("./routes/scheme");
 const navigationRouter = require("./routes/navigation");
 
 app.set("trust proxy", 1);
-app.use(rateLimiter({
+app.use(
+  rateLimiter({
     windowMs: 15 * 60 * 1000,
     max: 250,
   })
 );
 app.use(express.json({ limit: "10mb" }));
 app.use(express.static("public"));
-app.use(session({
-  name: process.env.SESS_NAME,
-  secret: process.env.SESS_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI
-  }),
-  cookie: {
-    maxAge: 1000 * 60 * 60,
-    sameSite: true,
-    secure: process.env.IN_PROD || false,
-  } 
-}))
+app.use(
+  session({
+    name: process.env.SESS_NAME,
+    secret: process.env.SESS_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+    }),
+    cookie: {
+      maxAge: 1000 * 60 * 60,
+      sameSite: true,
+      secure: process.env.IN_PROD || false,
+    },
+  })
+);
 
 // extra packages
 app.use(helmet());
@@ -66,7 +69,7 @@ const startServer = async () => {
   try {
     await connectDB(process.env.MONGO_URI);
     app.listen(PORT, () => {
-      console.log(`Server is running on port: ${PORT}`);
+      console.log(`Server Live. Listening to requests on port: ${PORT}`);
     });
   } catch (error) {
     console.log(error);
