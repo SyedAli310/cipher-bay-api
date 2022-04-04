@@ -6,6 +6,9 @@ const rateLimiter = require("express-rate-limit");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 
+// console related package
+const logColor = require("cli-color");
+
 // initialize express app
 const express = require("express");
 const app = express();
@@ -67,12 +70,28 @@ const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
   try {
-    await connectDB(process.env.MONGO_URI);
+    const mongoConn = await connectDB(process.env.MONGO_URI);
     app.listen(PORT, () => {
-      console.log(`Server Live. Listening to requests on port: ${PORT}`);
+      console.log(
+        // the detailed(colored) log
+        `________________________________________________________` + "\n\n",
+        logColor.blueBright.bold(`Server Live on machine -> `) +
+          logColor.yellow.bold(require("os").hostname()) +
+          "\n",
+        logColor.blueBright.bold(`Listening requests on port -> `) +
+          logColor.green.bold(PORT) +
+          "\n",
+        logColor.blueBright.bold(`MongoDB Host -> `) +
+          logColor.redBright.bold(mongoConn.connections[0].host) +
+          "\n",
+        logColor.blueBright.bold(`DB Name -> `) +
+          logColor.magentaBright.bold(mongoConn.connections[0].name) +
+          "\n",
+        `_______________________________________________________`
+      );
     });
   } catch (error) {
-    console.log(error);
+    console.log(logColor.red(error));
   }
 };
 
