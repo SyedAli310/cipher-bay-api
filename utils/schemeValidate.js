@@ -33,7 +33,7 @@ module.exports = schemeValidate = async (schemeObj) => {
   };
   const objValuesArr = Array.from(Object.values(schemeObj));
   const objKeysArr = Array.from(Object.keys(schemeObj));
-  console.log(objKeysArr, objValuesArr);
+  // console.log(objKeysArr, objValuesArr);
   if (schemeObj.constructor !== Object) {
     validationResponse.error = true;
     validationResponse.msg = "scheme must be an object";
@@ -44,18 +44,23 @@ module.exports = schemeValidate = async (schemeObj) => {
     validationResponse.error = true;
     validationResponse.msg = "scheme must have non-empty keys";
   }
-  // check for empty values
-  else if (Object.values(schemeObj).some((value) => isNaN(value))) {
+  // check for any value to have '-'
+  else if (objValuesArr.some((value) => value.includes("-"))) {
     validationResponse.error = true;
-    validationResponse.msg = "scheme must have non-empty numeric values";
+    validationResponse.msg = "scheme cannot have '-' (hyphen) in values";
+  }
+  // check for empty values
+  else if (Object.values(schemeObj).some((value) => value.trim() == "")) {
+    validationResponse.error = true;
+    validationResponse.msg = "scheme must have non-empty values";
   } else if (!Object.keys(schemeObj).every((key) => typeof key === "string")) {
     validationResponse.error = true;
     validationResponse.msg = "scheme keys must be strings";
   } else if (
-    !Object.values(schemeObj).every((value) => typeof value !== Number)
+    !Object.values(schemeObj).every((value) => typeof value === "string")
   ) {
     validationResponse.error = true;
-    validationResponse.msg = "scheme values must be numbers";
+    validationResponse.msg = "scheme values must be strings";
   } else if (
     !keySet.every((item) => schemeObj.hasOwnProperty(item.toLowerCase()))
   ) {

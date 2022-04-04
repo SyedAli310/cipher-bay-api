@@ -347,3 +347,16 @@
   font-size: larger;
   text-align: center;
 }
+
+.modal.prompt {
+  background-color: rgb(0, 0, 0, 0.125);
+  backdrop-filter: unset;
+}
+.modal.prompt .modal-content {
+  width: 50%;
+  min-height: 14vh !important;
+  height: auto;
+}
+.modal.prompt .modal-content .modal-body {
+  height: auto !important;
+}

@@ -20,10 +20,10 @@ const encoder = async (req, res) => {
         error: true,
         msg: "please provide a scheme to encode",
       });
-    }  
+    }
     const schemeCollection = await fetchSchemes();
     const validSchemes = schemeCollection.map((scheme) => scheme.name);
-    if(!schemeCollection || !validSchemes){
+    if (!schemeCollection || !validSchemes) {
       return res.status(400).json({
         error: true,
         msg: "could not fetch schemes from the server",
@@ -34,10 +34,15 @@ const encoder = async (req, res) => {
         .status(400)
         .json({ error: true, msg: "please provide a valid scheme" });
     }
-    const codingScheme = schemeCollection.filter( i => i.name === scheme)[0];
+    const codingScheme = schemeCollection.filter((i) => i.name === scheme)[0];
     const identifier = scheme.split("_").reverse()[0];
     const encoded = (await encode(str, codingScheme.encode)) + "@" + identifier;
-    res.status(200).json({ error: false, text: str, encoded, schemeUsed:codingScheme.name });
+    res.status(200).json({
+      error: false,
+      text: str,
+      encoded,
+      schemeUsed: codingScheme.name,
+    });
   } catch (err) {
     res.status(500).json({ error: true, msg: err.message });
   }
@@ -54,7 +59,7 @@ const decoder = async (req, res) => {
     const schemeName = `scheme_${code.split("@").reverse()[0]}`;
     const schemeCollection = await fetchSchemes();
     const validSchemes = schemeCollection.map((scheme) => scheme.name);
-    if(!schemeCollection || !validSchemes){
+    if (!schemeCollection || !validSchemes) {
       return res.status(400).json({
         error: true,
         msg: "could not fetch schemes from the server",
@@ -66,10 +71,12 @@ const decoder = async (req, res) => {
         msg: "please provide a valid cipher scheme to decode",
       });
     }
-    const codingScheme = schemeCollection.filter( i => i.name === schemeName)[0];
+    const codingScheme = schemeCollection.filter(
+      (i) => i.name === schemeName
+    )[0];
     const actualCode = code.split("@").reverse()[1];
     const decoded = await decode(actualCode, codingScheme.decode);
-    if(!decoded.trim()){
+    if (!decoded.trim()) {
       return res.status(400).json({
         error: true,
         msg: "could not decode the code",
@@ -90,17 +97,22 @@ const schemes = async (req, res) => {
     validSchemes.push({
       name: scheme.name,
       alias: scheme.alias,
-    }) ;
+    });
   });
   const info =
     'Schemes are used to (encode <-> decode) (text <-> ciphers). The encoded ciphers are separated by "-" and the identifier is used to decode the code. The identifier can be usually seen after the @ symbol as the end of the cipher.';
-  res.status(200).json({ error: false, info, schemes_count:validSchemes.length, schemes: validSchemes });
+  res.status(200).json({
+    error: false,
+    info,
+    schemes_count: validSchemes.length,
+    schemes: validSchemes,
+  });
 };
 
 const adminLogin = async (req, res) => {
   const { adminSecret } = req.body;
-  if (adminSecret && adminSecret === process.env.ADMIN_SECRET) {
-    req.session.adminSecret = adminSecret;
+  if (adminSecret.trim() && adminSecret.trim() === process.env.ADMIN_SECRET) {
+    req.session.adminSecret = adminSecret.trim();
     res.status(200).json({ error: false, msg: "admin logged in" });
   } else {
     res.status(401).json({
@@ -108,6 +120,6 @@ const adminLogin = async (req, res) => {
       msg: "please provide a valid admin secret",
     });
   }
-}
+};
 
-module.exports = { encoder, decoder, schemes, adminLogin }
+module.exports = { encoder, decoder, schemes, adminLogin };
