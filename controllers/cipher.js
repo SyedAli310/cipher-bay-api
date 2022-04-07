@@ -41,7 +41,7 @@ const encoder = async (req, res) => {
       error: false,
       text: str,
       encoded,
-      schemeUsed: codingScheme.name,
+      schemeUsed: { name: codingScheme.name, alias: codingScheme.alias },
     });
   } catch (err) {
     res.status(500).json({ error: true, msg: err.message });
@@ -84,7 +84,12 @@ const decoder = async (req, res) => {
     }
     res
       .status(200)
-      .json({ error: false, code, decoded, schemeUsed: codingScheme.name });
+      .json({
+        error: false,
+        code,
+        decoded,
+        schemeUsed: { name: codingScheme.name, alias: codingScheme.alias },
+      });
   } catch (err) {
     res.status(500).json({ error: true, msg: err.message });
   }
