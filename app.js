@@ -58,7 +58,6 @@ app.use(xss());
 
 // base route
 app.get("/", (req, res) => {
-  console.log("base route");
   res.redirect("https://cipherbay.netlify.app");
 });
 
@@ -78,7 +77,7 @@ const startServer = async () => {
   try {
     const mongoConn = await connectDB(process.env.MONGO_URI);
     app.listen(PORT, () => {
-      if (process.env.IN_PROD === "true") {
+      if (process.env.IN_PROD) {
         console.log(process.env.IN_PROD);
         console.log(
           `Server Live on machine -> ${require("os").hostname()}` + "\n",
@@ -87,8 +86,7 @@ const startServer = async () => {
           `DB Name -> ${mongoConn.connections[0].name}` + "\n"
         );
         return;
-      }
-      if (process.env.IN_PROD === "false") {
+      } else {
         console.log(
           // the detailed(colored) log
           `________________________________________________________` + "\n\n",
