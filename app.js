@@ -23,6 +23,7 @@ const adminCheck = require("./middlewares/adminCheck");
 //routers
 const cipherRouter = require("./routes/cipher");
 const schemeRouter = require("./routes/scheme");
+const adminRouter = require("./routes/admin");
 const navigationRouter = require("./routes/navigation");
 
 app.set("trust proxy", 1);
@@ -65,6 +66,7 @@ app.get("/", (req, res) => {
 app.use("/panel", navigationRouter);
 app.use("/api/v1/cipher", auth, cipherRouter);
 app.use("/api/v1/scheme", auth, adminCheck, schemeRouter);
+app.use("/api/v1/admin", auth, adminCheck, adminRouter);
 
 // Handling non existing requests from the client
 app.use((req, res, next) => {

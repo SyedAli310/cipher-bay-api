@@ -26,6 +26,7 @@
     "express": "^4.17.2",
     "express-rate-limit": "^6.0.3",
     "express-session": "^1.17.2",
+    "generate-api-key": "^1.0.0",
     "helmet": "^4.6.0",
     "mongoose": "^6.1.4",
     "xss-clean": "^0.1.1"
