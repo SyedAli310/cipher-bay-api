@@ -1,4 +1,4 @@
-const { encode, decode } = require("../middlewares/encode-decode");
+const { encode, decode } = require("../utils/encode-decode");
 // const schemeCollection = require("../codeSchemes/schemeSelection");
 const fetchSchemes = require("../utils/fetchSchemes");
 
