@@ -17,14 +17,10 @@ const app = express();
 const connectDB = require("./db/connect");
 
 //middlewares
-const auth = require("./middlewares/auth");
-const adminCheck = require("./middlewares/adminCheck");
+const middlewares = require("./middlewares");
 
 //routers
-const cipherRouter = require("./routes/cipher");
-const schemeRouter = require("./routes/scheme");
-const adminRouter = require("./routes/admin");
-const navigationRouter = require("./routes/navigation");
+const routers = require("./routes");
 
 app.set("trust proxy", 1);
 app.use(
@@ -63,10 +59,20 @@ app.get("/", (req, res) => {
 });
 
 // routers
-app.use("/panel", navigationRouter);
-app.use("/api/v1/cipher", auth, cipherRouter);
-app.use("/api/v1/scheme", auth, adminCheck, schemeRouter);
-app.use("/api/v1/admin", auth, adminCheck, adminRouter);
+app.use("/panel", routers.navigation);
+app.use("/api/v1/cipher", middlewares.auth, routers.cipher);
+app.use(
+  "/api/v1/scheme",
+  middlewares.auth,
+  middlewares.adminCheck,
+  routers.scheme
+);
+app.use(
+  "/api/v1/admin",
+  middlewares.auth,
+  middlewares.adminCheck,
+  routers.admin
+);
 
 // Handling non existing requests from the client
 app.use((req, res, next) => {
