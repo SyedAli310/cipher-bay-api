@@ -401,3 +401,70 @@ body::-webkit-scrollbar-thumb:hover {
     color: #8080ff;
   }
 }
+
+@keyframes alertAppear {
+  from {
+    right: -300px;
+    opacity: 0;
+  }
+  to {
+    right: 2rem;
+    opacity: 1;
+  }
+}
+
+/* keyframes/animations end */
+
+.alert {
+  position: fixed;
+  top: 6.5rem;
+  right: 2rem;
+  width: 300px;
+  height: auto;
+  background-color: var(--PRIMARY__GREY__COLOR);
+  color: var(--WHITE__COLOR);
+  border: 1.5px solid var(--ERROR__COLOR);
+  border-radius: 5px;
+  z-index: 9999;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 1rem;
+  line-height: 1.5;
+  font-size: larger;
+  box-shadow: 2px 4px 8px 0px var(--BLACK__COLOR);
+  animation: alertAppear 0.3s ease forwards;
+}
+
+.alert .alert-close-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -0.75rem;
+  right: -0.75rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 2rem;
+  color: var(--WHITE__COLOR);
+  outline: 1px solid var(--ERROR__COLOR);
+  cursor: pointer;
+  background-color: inherit;
+  border-radius: 100%;
+  border: none;
+  transition: all ease 300ms;
+}
+.alert .alert-close-btn span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  transition: all ease 300ms;
+}
+.alert .alert-close-btn:hover {
+  color: var(--ERROR__COLOR);
+  outline: 1px solid var(--WHITE__COLOR);
+  background-color: inherit;
+}
