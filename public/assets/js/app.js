@@ -51,3 +51,39 @@ function copyToClipboard(value, el) {
     $(el).append("");
   }, 2000);
 }
+
+const alertCustom = (msg) => {
+  // remove previous alert
+  const alertPrev = document.querySelector(".alert");
+  if (alertPrev) {
+    alertPrev.remove();
+  }
+  // create new alert
+  const alert = document.createElement("div");
+  alert.classList.add("alert");
+  alert.innerHTML = `
+      <button class='btn btn-md alert-close-btn'>
+         <span>&times;</span>
+      </button>
+      <div>${msg}</div>
+    `;
+  document.body.appendChild(alert);
+  // close alert
+  alert.querySelector(".alert-close-btn").addEventListener("click", () => {
+    alert.remove();
+  });
+  let timeout = setTimeout(() => {
+    alert.remove();
+  }, 5000);
+  // stop alert from disappearing on mouseover
+  alert.addEventListener("mouseover", () => {
+    // pause alert
+    clearTimeout(timeout);
+  });
+  alert.addEventListener("mouseout", () => {
+    // resume alert
+    timeout = setTimeout(() => {
+      alert.remove();
+    }, 2000);
+  });
+};

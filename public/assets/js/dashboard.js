@@ -11,6 +11,9 @@ const searchSchemeInp = document.querySelector("#search-scheme");
 const addSchemeModal = document.querySelector(".add-scheme-modal");
 const addSchemeForm = document.querySelector("#add-scheme-form");
 const addSchemeResponse = document.querySelector("[data-add-response]");
+const addSchemeSubmitBtn = document.querySelector(
+  "#add-scheme-form .add-scheme-form-submit-btn"
+);
 const allAddSchemeFields = document.querySelectorAll(
   "#add-scheme-form .form-control"
 );
@@ -123,7 +126,7 @@ addSchemeForm.addEventListener("submit", async (e) => {
   console.log(payload); // [TODO] this payload will be sent to the server (API call)
   // make API call to add scheme
   try {
-    addSchemeResponse.innerHTML = spinner("Adding scheme...");
+    addSchemeSubmitBtn.innerHTML = spinner("Adding scheme...");
     const res = await fetchCipherData__API(
       "POST",
       "/api/v1/scheme/add",
@@ -131,10 +134,13 @@ addSchemeForm.addEventListener("submit", async (e) => {
     );
     console.log(res);
     if (res.error) {
-      addSchemeResponse.innerText = res.msg;
+      alertCustom(res.msg);
+      addSchemeSubmitBtn.innerHTML = "add scheme";
     } else {
       addSchemeResponse.classList.add("success");
-      addSchemeResponse.innerText = res.msg;
+      addSchemeSubmitBtn.innerHTML = "add scheme";
+
+      alertCustom(res.msg);
       addSchemeForm.reset();
     }
   } catch (error) {
@@ -170,22 +176,35 @@ const schemeDeleteEventBinder = () => {
         ".delete-scheme-modal .modal-footer"
       );
       modalMsg.innerHTML = `
-      <h3>Are you sure you want to delete scheme <span class="scheme-alias" style='color:var(--MAIN__ACCENT__COLOR);'>${schemeAlias}</span>?</h3>
+      <p style='font-size:large; margin-bottom:0.75rem;'>Are you sure you want to delete scheme <span class="scheme-alias" style='color:var(--MAIN__ACCENT__COLOR);'>${schemeAlias}</span>?</p>
+      <p style="color:var(--ERROR__COLOR); font-weight:bold;">This action cannot be undone.</p>
       <br/>
-      <p style="color:var(--ERROR__COLOR);">This action cannot be undone.</p>
+      <label for="delete-scheme-confirm">
+        <input type="checkbox" id="delete-scheme-confirm" />
+        <span>I understand the consequences of this action.</span>
+      </label>
       `;
+      const deleteConfirmInp = modal.querySelector("#delete-scheme-confirm");
       modalFooter.innerHTML = `
       <button class='btn close-delete-prompt'>cancel</button>
       &nbsp;
-      <button class='btn confirm-delete' data-id="${schemeId}" style='background-color:var(--ERROR__COLOR);'>delete</button>
+      <button class='btn confirm-delete' disabled='true' data-id="${schemeId}" style='background-color:var(--ERROR__COLOR);'>delete</button>
       `;
+
       modal.classList.add("open");
       // bind delete event
-      const deleteBtn = modal.querySelector(".close-delete-prompt");
-      deleteBtn.addEventListener("click", () => {
+      const closeDeletePromptBtn = modal.querySelector(".close-delete-prompt");
+      closeDeletePromptBtn.addEventListener("click", () => {
         modal.classList.remove("open");
       });
       const deleteConfirmBtn = modal.querySelector(".confirm-delete");
+      deleteConfirmInp.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          deleteConfirmBtn.removeAttribute("disabled");
+        } else {
+          deleteConfirmBtn.setAttribute("disabled", true);
+        }
+      });
       deleteConfirmBtn.addEventListener("click", async (e) => {
         e.preventDefault();
         try {
@@ -205,6 +224,19 @@ const schemeDeleteEventBinder = () => {
           modalMsg.innerText = error.message;
         }
       });
+    });
+  });
+};
+const schemeDownloadEventBinder = () => {
+  const allDeleteBtns = document.querySelectorAll(".download-scheme-btn");
+  allDeleteBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      // get scheme id
+      const schemeId = e.target.dataset.id;
+      const schemeAlias = e.target.dataset.schemeAlias;
+      console.log(schemeId, schemeAlias);
+      // open a modal prompt
+      alertCustom("Coming soon, please check later. </br> Thanks!");
     });
   });
 };
@@ -255,7 +287,7 @@ const showDashboard = async () => {
     schemeLi.innerHTML = `
     <div class="scheme-title">
       <span class="alias">${scheme.alias}</span>
-      <span class="name">${scheme.name} &nbsp; <button class='btn btn-md scheme-toggle-btn' data-scheme-toggle><img class='icon' src="/assets/img/icons/caret-down-outline.svg" /></button></span>
+      <span class="name">${scheme.name} &nbsp; <button class='btn btn-sm scheme-toggle-btn' data-scheme-toggle><img class='icon' src="/assets/img/icons/caret-down-outline.svg" /></button></span>
     </div>
     `;
     const schemeBody = document.createElement("div");
@@ -286,7 +318,7 @@ const showDashboard = async () => {
   });
 
   schemeDeleteEventBinder();
-
+  schemeDownloadEventBinder();
   schemeToggleBinder();
 };
 
