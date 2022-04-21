@@ -15,6 +15,12 @@ const auth = async (req, res, next) => {
   if (!keyIsValid) {
     return res.status(401).json({ error: true, msg: "invalid api key" });
   }
+  const keyIsActive = await ApiKey.findOne({ value: apiKey, active: true });
+  if (!keyIsActive) {
+    return res
+      .status(401)
+      .json({ error: true, msg: "this api key is not active" });
+  }
   // if apiKey is valid, continue
   next();
 };
