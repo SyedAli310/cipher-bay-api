@@ -7,15 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="./assets/css/panel.css" />
     <title>cipherbay &mdash; adminPanel</title>
   </head>
   <body>
     <div class="container">
-      <h1 class="header">Admin Panel</h1>
-      <br />
-      <br />
-      <a href="/panel/admin/login" class="btn">login</a>
-      <a href="/panel/dash" class="btn">dashboard</a>
+      <div class="panel-header">
+        <h1 class="header">Admin Panel</h1>
+        <div class="panel-header-btns">
+          <a href="/panel/logout" class="btn logout-btn">logout</a>
+          <!-- <a href="/panel/dash" class="btn">dashboard</a> -->
+        </div>
+      </div>
+
+      <div class="panel-content" id="dyn-panel-content"></div>
     </div>
   </body>
 

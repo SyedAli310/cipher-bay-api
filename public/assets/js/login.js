@@ -36,6 +36,6 @@ adminLoginForm.addEventListener("submit", async (e) => {
     // clear form
     e.target.reset();
     // redirect to dashboard
-    window.location.href = `/panel/dash?msg=${data.msg}`;
+    window.location.href = `/panel?msg=${data.msg}`;
   }
 });
