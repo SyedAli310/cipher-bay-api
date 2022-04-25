@@ -86,7 +86,6 @@ const startServer = async () => {
     const mongoConn = await connectDB(process.env.MONGO_URI);
     app.listen(PORT, () => {
       if (process.env.IN_PROD) {
-        console.log(process.env.IN_PROD);
         console.log(
           `Server Live on machine -> ${require("os").hostname()}` + "\n",
           `Listening requests on port -> ${PORT}` + "\n",
