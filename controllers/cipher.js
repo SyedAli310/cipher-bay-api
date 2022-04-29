@@ -1,6 +1,5 @@
-const { encode, decode } = require("../utils/encode-decode");
-// const schemeCollection = require("../codeSchemes/schemeSelection");
-const fetchSchemes = require("../utils/fetchSchemes");
+const { encodeDecode: convertOperations } = require("../utils");
+const { fetchSchemes } = require("../utils");
 
 const encoder = async (req, res) => {
   let { str } = req.body;
@@ -36,7 +35,10 @@ const encoder = async (req, res) => {
     }
     const codingScheme = schemeCollection.filter((i) => i.name === scheme)[0];
     const identifier = scheme.split("_").reverse()[0];
-    const encoded = (await encode(str, codingScheme.encode)) + "@" + identifier;
+    const encoded =
+      (await convertOperations.encode(str, codingScheme.encode)) +
+      "@" +
+      identifier;
     res.status(200).json({
       error: false,
       text: str,
@@ -75,21 +77,22 @@ const decoder = async (req, res) => {
       (i) => i.name === schemeName
     )[0];
     const actualCode = code.split("@").reverse()[1];
-    const decoded = await decode(actualCode, codingScheme.decode);
+    const decoded = await convertOperations.decode(
+      actualCode,
+      codingScheme.decode
+    );
     if (!decoded.trim()) {
       return res.status(400).json({
         error: true,
         msg: "could not decode the code",
       });
     }
-    res
-      .status(200)
-      .json({
-        error: false,
-        code,
-        decoded,
-        schemeUsed: { name: codingScheme.name, alias: codingScheme.alias },
-      });
+    res.status(200).json({
+      error: false,
+      code,
+      decoded,
+      schemeUsed: { name: codingScheme.name, alias: codingScheme.alias },
+    });
   } catch (err) {
     res.status(500).json({ error: true, msg: err.message });
   }

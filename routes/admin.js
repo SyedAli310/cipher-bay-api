@@ -1,18 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const {
-  generateApiKey,
-  getAllApiKeys,
-  getApiKeyById,
-  enableApiKey,
-  disableApiKey,
-} = require("../controllers/admin");
+// import admin controller
+const { admin: adminController } = require("../controllers");
 
-router.route("/apikeys").get(getAllApiKeys);
-router.route("/apikey/:id").get(getApiKeyById);
-router.route("/apikey/new").post(generateApiKey);
-router.route("/apikey/enable").post(enableApiKey);
-router.route("/apikey/disable").post(disableApiKey);
+router.route("/apikeys").get(adminController.getAllApiKeys);
+router.route("/apikey/:id").get(adminController.getApiKeyById);
+router.route("/apikey/new").post(adminController.generateApiKey);
+router.route("/apikey/enable").post(adminController.enableApiKey);
+router.route("/apikey/disable").post(adminController.disableApiKey);
 
 module.exports = router;
