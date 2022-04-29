@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-const { encoder, decoder, schemes, adminLogin } = require("../controllers/cipher");
+// import cipher controller
+const { cipher: cipherController } = require("../controllers");
 
-router.route('/encode').post(encoder);
-router.route('/decode').post(decoder);
-router.route('/schemes').get(schemes);
-router.route('/adminLogin').post(adminLogin);
+router.route("/encode").post(cipherController.encoder);
+router.route("/decode").post(cipherController.decoder);
+router.route("/schemes").get(cipherController.schemes);
+router.route("/adminLogin").post(cipherController.adminLogin);
 
 module.exports = router;

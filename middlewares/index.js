@@ -1,2 +1,4 @@
-module.exports.auth = require("./auth");
-module.exports.adminCheck = require("./adminCheck");
+module.exports = {
+  auth: require("./auth"),
+  adminCheck: require("./adminCheck"),
+};

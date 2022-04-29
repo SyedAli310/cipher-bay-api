@@ -1,4 +1,4 @@
-const Scheme = require("../models/Scheme");
+const { Scheme } = require("../models");
 const { processScheme } = require("../utils/schemeProcess");
 const generateKey = require("../utils/generateKey");
 
