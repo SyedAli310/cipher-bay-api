@@ -1,4 +1,4 @@
-const Scheme = require("../models/Scheme");
+const { Scheme } = require("../models");
 const { processScheme } = require("../utils/schemeProcess");
 const generateKey = require("../utils/generateKey");
 
@@ -51,6 +51,9 @@ const addScheme = async (req, res) => {
     }
 
     const processResponse = await processScheme(scheme);
+
+    // return res.json(processResponse);
+
     if (processResponse.error) {
       return res.status(400).json({ error: true, ...processResponse });
     }
@@ -92,7 +95,37 @@ const addScheme = async (req, res) => {
   }
 };
 
+const deleteScheme = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const scheme = await Scheme.findById(id);
+    if (!scheme) {
+      return res.status(404).json({
+        error: true,
+        msg: "scheme not found",
+      });
+    }
+    const deleted = await Scheme.findByIdAndDelete(id);
+    if (!deleted) {
+      return res.status(500).json({
+        error: true,
+        msg: "error deleting scheme from the database",
+      });
+    }
+    res.status(200).json({
+      error: false,
+      msg: "scheme deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      msg: error.message,
+    });
+  }
+};
+
 module.exports = {
   viewSchemes,
   addScheme,
+  deleteScheme,
 };

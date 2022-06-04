@@ -2,7 +2,7 @@
   "name": "cipher-bay-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js"
@@ -19,12 +19,14 @@
   },
   "homepage": "https://github.com/SyedAli310/cipher-bay-api#readme",
   "dependencies": {
+    "cli-color": "^2.0.2",
     "connect-mongo": "^4.6.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "express-rate-limit": "^6.0.3",
     "express-session": "^1.17.2",
+    "generate-api-key": "^1.0.0",
     "helmet": "^4.6.0",
     "mongoose": "^6.1.4",
     "xss-clean": "^0.1.1"

@@ -9,8 +9,8 @@ const processScheme = async (scheme) => {
 
   // process the scheme types
   Object.keys(scheme).forEach((key) => {
-    key = key.toString().toLowerCase();
-    scheme[key] = parseInt(scheme[key]);
+    key = String(key).toLowerCase();
+    scheme[key] = String(scheme[key]).trim().toLowerCase();
   });
 
   // validate the scheme
@@ -33,7 +33,7 @@ const processScheme = async (scheme) => {
   response.msg = "schemes processed and validated successfully";
   response.encode_scheme = encode_scheme;
   response.decode_scheme = decode_scheme;
-  console.log(response);
+  // console.log(response);
   return response;
 };
 

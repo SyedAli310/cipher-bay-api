@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const { homeController, dashController, loginController, logoutController, githubController } = require("../controllers/navigation");
+// import navigation controller
+const { navigation: navigationController } = require("../controllers");
 
-router.route('/').get(homeController);
-router.route('/dash').get(dashController);
-router.route('/login').get(loginController);
-router.route('/logout').get(logoutController);
-router.route('/github').get(githubController);
-
+router.route("/").get(navigationController.panelController);
+router.route("/dash").get(navigationController.dashController);
+router.route("/admin/login").get(navigationController.loginController);
+router.route("/logout").get(navigationController.logoutController);
+router.route("/github").get(navigationController.githubController);
 
 module.exports = router;

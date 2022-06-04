@@ -1,4 +1,4 @@
-const Scheme = require("../models/Scheme");
+const { Scheme } = require("../models");
 
 // fetch schemes from mongoDB
 const fetchSchemes = async () => {
@@ -8,6 +8,6 @@ const fetchSchemes = async () => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 module.exports = fetchSchemes;

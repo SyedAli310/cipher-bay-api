@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-const { viewSchemes, addScheme } = require("../controllers/scheme");
+// import scheme controller
+const { scheme: schemeController } = require("../controllers");
 
-router.route('/view').get(viewSchemes);
-router.route('/view/:id').get(viewSchemes);
-router.route('/add').post(addScheme);
+router.route("/view").get(schemeController.viewSchemes);
+router.route("/view/:id").get(schemeController.viewSchemes);
+router.route("/add").post(schemeController.addScheme);
+router.route("/delete/:id").delete(schemeController.deleteScheme);
 
 module.exports = router;
-

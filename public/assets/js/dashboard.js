@@ -3,7 +3,6 @@ const resMsg = document.querySelector("#login-response");
 const schemeList = document.querySelector("#scheme-list");
 const dynamicSchemeTitle = document.querySelector("#dyn-scheme-list-title");
 const dashHeaderBtnWrap = document.querySelector("#dash-btn-wrapper");
-const API_KEY = "nRwgKaP8GVzSybkzriiTCxRuQaRJ59kj";
 
 const modalCloseBtns = document.querySelectorAll(".modal-close-btn");
 
@@ -12,36 +11,18 @@ const searchSchemeInp = document.querySelector("#search-scheme");
 const addSchemeModal = document.querySelector(".add-scheme-modal");
 const addSchemeForm = document.querySelector("#add-scheme-form");
 const addSchemeResponse = document.querySelector("[data-add-response]");
+const addSchemeSubmitBtn = document.querySelector(
+  "#add-scheme-form .add-scheme-form-submit-btn"
+);
 const allAddSchemeFields = document.querySelectorAll(
   "#add-scheme-form .form-control"
 );
-
-const spinner = (text) => {
-  return `<div id='spinner'>
-                <span>${text ? text : "Loading"}</span>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>`;
+// get param msg from url
+const getUrlParam = (param) => {
+  const url = new URL(window.location.href);
+  return url.searchParams.get(param);
 };
-
-const fetchCipherData__API = async (method, url, body) => {
-  try {
-    const res = await fetch(url, {
-      method: method,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        apiKey: API_KEY,
-      },
-      body: body ? JSON.stringify(body) : null,
-    });
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    return error.message;
-  }
-};
+getUrlParam("msg") ? console.log(getUrlParam("msg")) : null;
 
 const getSchemes = async () => {
   try {
@@ -145,7 +126,7 @@ addSchemeForm.addEventListener("submit", async (e) => {
   console.log(payload); // [TODO] this payload will be sent to the server (API call)
   // make API call to add scheme
   try {
-    addSchemeResponse.innerHTML = spinner("Adding scheme...");
+    addSchemeSubmitBtn.innerHTML = spinner("Adding scheme...");
     const res = await fetchCipherData__API(
       "POST",
       "/api/v1/scheme/add",
@@ -153,10 +134,13 @@ addSchemeForm.addEventListener("submit", async (e) => {
     );
     console.log(res);
     if (res.error) {
-      addSchemeResponse.innerText = res.msg;
+      alertCustom(res.msg);
+      addSchemeSubmitBtn.innerHTML = "add scheme";
     } else {
       addSchemeResponse.classList.add("success");
-      addSchemeResponse.innerText = res.msg;
+      addSchemeSubmitBtn.innerHTML = "add scheme";
+
+      alertCustom(res.msg);
       addSchemeForm.reset();
     }
   } catch (error) {
@@ -177,6 +161,86 @@ searchSchemeInp.addEventListener("input", (e) => {
   });
 });
 
+const schemeDeleteEventBinder = () => {
+  const allDeleteBtns = document.querySelectorAll(".delete-scheme-btn");
+  allDeleteBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      // get scheme id
+      const schemeId = e.target.dataset.id;
+      const schemeAlias = e.target.dataset.schemeAlias;
+      console.log(schemeId, schemeAlias);
+      // open a modal prompt
+      const modal = document.querySelector(".delete-scheme-modal");
+      const modalMsg = modal.querySelector("[data-delete-response]");
+      const modalFooter = modal.querySelector(
+        ".delete-scheme-modal .modal-footer"
+      );
+      modalMsg.innerHTML = `
+      <p style='font-size:large; margin-bottom:0.75rem;'>Are you sure you want to delete scheme <span class="scheme-alias" style='color:var(--MAIN__ACCENT__COLOR);'>${schemeAlias}</span>?</p>
+      <p style="color:var(--ERROR__COLOR); font-weight:bold;">This action cannot be undone.</p>
+      <br/>
+      <label for="delete-scheme-confirm">
+        <input type="checkbox" id="delete-scheme-confirm" />
+        <span>I understand the consequences of this action.</span>
+      </label>
+      `;
+      const deleteConfirmInp = modal.querySelector("#delete-scheme-confirm");
+      modalFooter.innerHTML = `
+      <button class='btn close-delete-prompt'>cancel</button>
+      &nbsp;
+      <button class='btn confirm-delete' disabled='true' data-id="${schemeId}" style='background-color:var(--ERROR__COLOR);'>delete</button>
+      `;
+
+      modal.classList.add("open");
+      // bind delete event
+      const closeDeletePromptBtn = modal.querySelector(".close-delete-prompt");
+      closeDeletePromptBtn.addEventListener("click", () => {
+        modal.classList.remove("open");
+      });
+      const deleteConfirmBtn = modal.querySelector(".confirm-delete");
+      deleteConfirmInp.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          deleteConfirmBtn.removeAttribute("disabled");
+        } else {
+          deleteConfirmBtn.setAttribute("disabled", true);
+        }
+      });
+      deleteConfirmBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        try {
+          const res = await fetchCipherData__API(
+            "DELETE",
+            `/api/v1/scheme/delete/${schemeId}`
+          );
+          console.log(res);
+          if (res.error) {
+            modalMsg.append = res.msg;
+          } else {
+            modal.classList.remove("open");
+            // remove scheme from UI
+            showDashboard();
+          }
+        } catch (error) {
+          modalMsg.innerText = error.message;
+        }
+      });
+    });
+  });
+};
+const schemeDownloadEventBinder = () => {
+  const allDeleteBtns = document.querySelectorAll(".download-scheme-btn");
+  allDeleteBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      // get scheme id
+      const schemeId = e.target.dataset.id;
+      const schemeAlias = e.target.dataset.schemeAlias;
+      console.log(schemeId, schemeAlias);
+      // open a modal prompt
+      alertCustom("Coming soon, please check later. </br> Thanks!");
+    });
+  });
+};
+
 const showDashboard = async () => {
   schemeList.innerHTML =
     "<span style='color:var(--MAIN__ACCENT__COLOR);'>loading...</span>";
@@ -185,14 +249,14 @@ const showDashboard = async () => {
   if (schemes.error) {
     schemeList.innerHTML = "";
     dynamicSchemeTitle.innerHTML = "";
-    dashHeaderBtnWrap.innerHTML = ` <a class="btn login-btn a-reset" href="/login">Login</a>`;
+    dashHeaderBtnWrap.innerHTML = ` <a class="btn login-btn a-reset" href="/panel/admin/login">Login</a>`;
     resMsg.classList.add("show");
     resMsg.innerHTML = `${schemes.msg} <br> <small class='error'>To get access to the dashboard, please login</small>`;
     return;
   }
   schemeList.innerHTML = "";
   resMsg.classList.remove("show");
-  dashHeaderBtnWrap.innerHTML = ` <a class="btn logout-btn a-reset" href="/logout">Logout</a>`;
+  dashHeaderBtnWrap.innerHTML = ` <a class="btn logout-btn a-reset" href="/panel/logout">Logout</a>`;
   const allSchemes = schemes.scheme;
   const schemesCount = schemes.schemes_count;
   dynamicSchemeTitle.innerHTML = `
@@ -223,7 +287,7 @@ const showDashboard = async () => {
     schemeLi.innerHTML = `
     <div class="scheme-title">
       <span class="alias">${scheme.alias}</span>
-      <span class="name">${scheme.name} &nbsp; <button class='btn btn-md scheme-toggle-btn' data-scheme-toggle><img class='icon' src="/assets/img/icons/caret-down-outline.svg" /></button></span>
+      <span class="name">${scheme.name} &nbsp; <button class='btn btn-sm scheme-toggle-btn' data-scheme-toggle><img class='icon' src="/assets/img/icons/caret-down-outline.svg" /></button></span>
     </div>
     `;
     const schemeBody = document.createElement("div");
@@ -235,8 +299,14 @@ const showDashboard = async () => {
       .toDateString()
       .slice(3)}</small>
     <div class='scheme-body-btns'>
-      <button class='btn btn-sm' id='delete-scheme' title='delete scheme'><img class='icon' src="/assets/img/icons/trash-outline.svg" alt="del" /></button>
-      <button class='btn btn-sm' id='download-scheme' title='download scheme'><img class='icon' src="/assets/img/icons/cloud-download-outline.svg" alt="save" /></button>
+      <button class='btn btn-sm delete-scheme-btn' 
+      data-id='${scheme._id}' 
+      data-scheme-alias='${scheme.alias}'
+      title='delete scheme'><img class='icon' src="/assets/img/icons/trash-outline.svg" alt="del" /></button>
+      <button class='btn btn-sm download-scheme-btn' 
+      data-id='${scheme._id}' 
+      data-scheme-alias='${scheme.alias}'
+      title='download scheme'><img class='icon' src="/assets/img/icons/cloud-download-outline.svg" alt="save" /></button>
     </div>
     `;
     schemeBody.appendChild(schemeBodyHeader);
@@ -247,6 +317,8 @@ const showDashboard = async () => {
     schemeList.appendChild(schemeLi);
   });
 
+  schemeDeleteEventBinder();
+  schemeDownloadEventBinder();
   schemeToggleBinder();
 };
 
