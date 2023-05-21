@@ -6,6 +6,8 @@ const rateLimiter = require("express-rate-limit");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 
+const path = require('path');
+
 // console related package
 const logColor = require("cli-color");
 
