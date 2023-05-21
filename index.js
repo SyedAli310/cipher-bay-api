@@ -30,7 +30,7 @@ app.use(
   })
 );
 app.use(express.json({ limit: "10mb" }));
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(
   session({
     name: process.env.SESS_NAME,
