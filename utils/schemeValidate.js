@@ -49,6 +49,11 @@ module.exports = schemeValidate = async (schemeObj) => {
     validationResponse.error = true;
     validationResponse.msg = "scheme cannot have '-' (hyphen) in values";
   }
+  //check for any value to have '@'
+  else if (objValuesArr.some((value) => value.includes("@"))) {
+    validationResponse.error = true;
+    validationResponse.msg = "scheme cannot have '@' in values";
+  }
   // check for empty values
   else if (Object.values(schemeObj).some((value) => value.trim() == "")) {
     validationResponse.error = true;
