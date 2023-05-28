@@ -57,7 +57,7 @@ app.use(xss());
 
 // base route
 app.get("/", (req, res) => {
-  res.redirect("https://cipherbay.netlify.app");
+  res.redirect("https://cipherbay.vercel.app");
 });
 
 // routers
