@@ -62,16 +62,17 @@ app.get("/", (req, res) => {
 
 // routers
 app.use("/panel", routers.navigation);
-app.use("/api/v1/cipher", middlewares.auth, routers.cipher);
+app.use("/api/v1/auth", routers.auth);
+app.use("/api/v1/cipher", middlewares.auth, middlewares.apiKeyValidator, routers.cipher);
 app.use(
   "/api/v1/scheme",
-  middlewares.auth,
+  middlewares.apiKeyValidator,
   middlewares.adminCheck,
   routers.scheme
 );
 app.use(
   "/api/v1/admin",
-  middlewares.auth,
+  middlewares.apiKeyValidator,
   middlewares.adminCheck,
   routers.admin
 );

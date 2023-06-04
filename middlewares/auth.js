@@ -1,28 +1,26 @@
-require("dotenv").config();
-const ApiKey = require("../models/ApiKey");
+const jwt = require("jsonwebtoken");
 
 const auth = async (req, res, next) => {
-  // get apiKey from header
-  const apiKey = req.header("apiKey");
-  // check if apiKey exists
-  if (!apiKey) {
-    return res
-      .status(401)
-      .json({ error: true, msg: "please provide an api key" });
+  //check header
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({
+      error: true,
+      msg: "Unauthorized Access - Invalid authentication"
+    })
   }
-  // check if apiKey is valid
-  const keyIsValid = await ApiKey.findOne({ value: apiKey });
-  if (!keyIsValid) {
-    return res.status(401).json({ error: true, msg: "invalid api key" });
+  const token = authHeader.split(" ")[1];
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    //attach the user to the job routes
+    req.user = { userId: payload.userId, name: payload.name };
+    next();
+  } catch (error) {
+    res.status(401).json({
+      error: true,
+      msg: "Unauthorized Access - Invalid authentication"
+    })
   }
-  const keyIsActive = await ApiKey.findOne({ value: apiKey, active: true });
-  if (!keyIsActive) {
-    return res
-      .status(401)
-      .json({ error: true, msg: "this api key is not active" });
-  }
-  // if apiKey is valid, continue
-  next();
 };
 
 module.exports = auth;

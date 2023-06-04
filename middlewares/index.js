@@ -1,4 +1,5 @@
 module.exports = {
-  auth: require("./auth"),
+  apiKeyValidator: require("./apiKeyValidator"),
   adminCheck: require("./adminCheck"),
+  auth: require("./auth"),
 };
