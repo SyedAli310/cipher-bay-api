@@ -6,6 +6,7 @@ const auth = async (req, res, next) => {
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({
       error: true,
+      auth: false,
       msg: "Unauthorized Access - Invalid authentication"
     })
   }
@@ -18,6 +19,7 @@ const auth = async (req, res, next) => {
   } catch (error) {
     res.status(401).json({
       error: true,
+      auth: false,
       msg: "Unauthorized Access - Invalid authentication"
     })
   }
