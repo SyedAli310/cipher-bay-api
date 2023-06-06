@@ -24,6 +24,10 @@ const middlewares = require("./middlewares");
 //routers
 const routers = require("./routes");
 
+//models
+const { User } = require("./models");
+
+
 app.set("trust proxy", 1);
 app.use(
   rateLimiter({
@@ -63,6 +67,14 @@ app.get("/", (req, res) => {
 // routers
 app.use("/panel", routers.navigation);
 app.use("/api/v1/auth", routers.auth);
+app.get("/check-user-status", middlewares.auth, async (req, res) => {
+  const loggedInUser = await User.findOne({_id: req.user.userId}).select('firstName lastName username email');
+  return res.status(200).json({
+    error: false,
+    auth: true,
+    loggedInUser: loggedInUser
+  })
+});
 app.use("/api/v1/cipher", middlewares.apiKeyValidator, routers.cipher);
 app.use(
   "/api/v1/scheme",
