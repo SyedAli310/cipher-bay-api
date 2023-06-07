@@ -1,4 +1,4 @@
-const { Scheme } = require("../models");
+const { Scheme, User } = require("../models");
 const { processScheme } = require("../utils/schemeProcess");
 const generateKey = require("../utils/generateKey");
 
@@ -68,11 +68,15 @@ const addScheme = async (req, res) => {
       });
     }
 
+    const defaultAdmin = await User.findOne({_id: '648081e090e0c69da372d194', isAdmin: true});
+
     const newScheme = {
       name: `scheme_${generateKey(10, true, 6)}`,
       alias: processed_alias,
       encode: encode_scheme,
       decode: decode_scheme,
+      createdBy: req.session.adminSecret ? defaultAdmin._id : '',
+      createdByName: req.session.adminSecret ? `admin-${defaultAdmin.firstName}` : '',
     };
     // add the scheme to the database
     const scheme_added = await Scheme.create(newScheme);

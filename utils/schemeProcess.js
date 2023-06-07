@@ -10,7 +10,7 @@ const processScheme = async (scheme) => {
   // process the scheme types
   Object.keys(scheme).forEach((key) => {
     key = String(key).toLowerCase();
-    scheme[key] = String(scheme[key]).trim().toLowerCase();
+    scheme[key] = String(scheme[key]).trim().replace(/\s/g, "").toLowerCase();
   });
 
   // validate the scheme

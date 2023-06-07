@@ -1,4 +1,5 @@
 /node_modules
+/dev-scripts
 /data.js
 /populate.js
 .env

@@ -19,6 +19,7 @@ const UserSchema = new mongoose.Schema(
             minlength: 3,
             maxlength: 50,
             unique: true,
+            sparse: true
         },
         email: {
             type: String,
@@ -34,6 +35,10 @@ const UserSchema = new mongoose.Schema(
             required: [true, "Please provide a password."],
             minlength: 6,
         },
+        isAdmin: {
+            type: Boolean,
+            default: false,
+        }
     },
     { timestamps: true }
 );

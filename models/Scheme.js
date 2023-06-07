@@ -18,6 +18,15 @@ const SchemeSchema = new mongoose.Schema(
       type: Object,
       required: [true, "Scheme decode is required"],
     },
+    createdBy: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      required: [true, "Created by is required"],
+    },
+    createdByName: {
+      type: String,
+      required: [true, "Created by name is required"],
+    }
   },
   { timestamps: true }
 );
