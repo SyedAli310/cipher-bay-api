@@ -56,11 +56,14 @@ app.use(
 
 // extra packages
 app.use(helmet());
-app.use(cors({
-  origin: ['https://cipherbay.vercel.app', 'https://cipherbay.netlify.app']
-}));
-app.use(middlewares.allowCors);
+app.use(cors());
 app.use(xss());
+
+app.use(function(req, res, next) {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Headers", "*");
+  next();
+});
 
 // base route
 app.get("/", (req, res) => {
