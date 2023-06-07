@@ -59,6 +59,7 @@ app.use(helmet());
 app.use(cors({
   origin: ['https://cipherbay.vercel.app', 'https://cipherbay.netlify.app']
 }));
+app.use(middlewares.allowCors);
 app.use(xss());
 
 // base route
