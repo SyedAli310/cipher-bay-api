@@ -1,6 +1,6 @@
 const { Scheme, User } = require("../models");
 const { processScheme } = require("../utils/schemeProcess");
-const generateKey = require("../utils/generateKey");
+const generateKey = require("random-key-cz");
 
 const viewSchemes = async (req, res) => {
   const { id } = req.params;
