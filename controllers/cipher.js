@@ -99,7 +99,7 @@ const decoder = async (req, res) => {
 };
 
 const schemes = async (req, res) => {
-  const schemeCollection = await fetchSchemes('name alias createdAt');
+  const schemeCollection = await fetchSchemes('name alias createdAt createdByName');
   // const validSchemes = [];
   // schemeCollection.forEach((scheme, index) => {
   //   validSchemes.push({
@@ -107,8 +107,7 @@ const schemes = async (req, res) => {
   //     alias: scheme.alias,
   //   });
   // });
-  const info =
-    'Schemes are used to (encode <-> decode) (text <-> ciphers). The encoded ciphers are separated by "-" and the identifier is used to decode the code. The identifier can be usually seen after the @ symbol as the end of the cipher.';
+  const info = 'Schemes are used to (encode <-> decode) (text <-> ciphers). The encoded ciphers are separated by "-" and the identifier is used to decode the code.';
   res.status(200).json({
     error: false,
     info,
